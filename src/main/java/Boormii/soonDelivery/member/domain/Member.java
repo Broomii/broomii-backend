@@ -1,42 +1,48 @@
 package Boormii.soonDelivery.member.domain;
 
+import Boormii.soonDelivery.member.dto.JoinRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 @Entity
 @Getter
-@AllArgsConstructor
+@Setter
 @NoArgsConstructor
 public class Member {
-
     @Id
     @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
-    @NonNull
+    @NotNull
     private String name;
-
-    @NonNull
+    @NotNull
     private String nickName;
-
-    @NonNull
+    @NotNull
     private String email;
-
-    @NonNull
+    @NotNull
     private String password;
-
-    @NonNull
+    @NotNull
     private String phoneNumber;
-
     private String defaultDeliveryAddress;
+
+    public static Member registerMember(JoinRequestDto joinRequestDto){
+        Member member = new Member();
+        member.email = joinRequestDto.getEmail();
+        member.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
+        member.name = joinRequestDto.getName();
+        member.nickName = joinRequestDto.getNickName();
+        member.password = joinRequestDto.getPassword();
+        member.phoneNumber = joinRequestDto.getPhoneNumber();
+        return member;
+    }
 }
+
+
+
 
 //- 이름 *
 //- 닉네임 (중복 확인) *
