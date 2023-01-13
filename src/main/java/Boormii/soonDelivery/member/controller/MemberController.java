@@ -1,5 +1,7 @@
 package Boormii.soonDelivery.member.controller;
 
+import Boormii.soonDelivery.global.response.CommonResponse;
+import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.member.domain.Member;
 import Boormii.soonDelivery.member.dto.JoinRequestDto;
 import Boormii.soonDelivery.member.service.MemberService;
@@ -12,12 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MemberController {
     private final MemberService memberService;
+    private final ResponseService responseService;
 
     @PostMapping("api/join")
-    public Long join(@RequestBody JoinRequestDto joinRequestDto)
+    public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto)
     {
         Member member = Member.registerMember(joinRequestDto);
-        return memberService.join(member);
+        return responseService.getSuccessResponse("회원 가입 성공", memberService.join(member));
     }
 
 }
