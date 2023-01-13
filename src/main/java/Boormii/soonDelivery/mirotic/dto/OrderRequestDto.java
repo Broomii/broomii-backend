@@ -1,4 +1,4 @@
-package Boormii.soonDelivery.order.dto;
+package Boormii.soonDelivery.mirotic.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
