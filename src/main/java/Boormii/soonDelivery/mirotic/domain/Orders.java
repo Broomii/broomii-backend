@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Mirotic {
+public class Orders {
 
 
     @Id
@@ -39,16 +39,16 @@ public class Mirotic {
 
     private String requirement;
 
-    public static Mirotic createOrder(OrderRequestDto orderRequestDto){
-        Mirotic mirotic = new Mirotic();
-        mirotic.storeName = orderRequestDto.getStoreName();
-        mirotic.title = orderRequestDto.getTitle();
-        mirotic.deliveryAddress = orderRequestDto.getDeliveryAddress();
-        mirotic.totalPrice = orderRequestDto.getTotalPrice();
-        mirotic.deliveryPay = orderRequestDto.getDeliveryPay();
-        mirotic.requirement = orderRequestDto.getRequirement();
+    public static Orders createOrder(OrderRequestDto orderRequestDto){
+        Orders orders = new Orders();
+        orders.storeName = orderRequestDto.getStoreName();
+        orders.title = orderRequestDto.getTitle();
+        orders.deliveryAddress = orderRequestDto.getDeliveryAddress();
+        orders.totalPrice = orderRequestDto.getTotalPrice();
+        orders.deliveryPay = orderRequestDto.getDeliveryPay();
+        orders.requirement = orderRequestDto.getRequirement();
 
-        return mirotic;
+        return orders;
     }
 
 }

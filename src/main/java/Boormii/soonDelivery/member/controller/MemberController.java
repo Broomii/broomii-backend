@@ -2,7 +2,7 @@ package Boormii.soonDelivery.member.controller;
 
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
-import Boormii.soonDelivery.member.domain.Member;
+import Boormii.soonDelivery.member.domain.Members;
 import Boormii.soonDelivery.member.dto.JoinRequestDto;
 import Boormii.soonDelivery.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +17,8 @@ public class MemberController {
     @PostMapping("api/join")
     public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto)
     {
-        Member member = Member.registerMember(joinRequestDto);
-        return responseService.getSuccessResponse("회원 가입 성공", memberService.join(member));
+        Members members = Members.registerMember(joinRequestDto);
+        return responseService.getSuccessResponse("회원 가입 성공", memberService.join(members));
     }
 
 //    이메일로 인증번호 전송

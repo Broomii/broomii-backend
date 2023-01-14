@@ -12,7 +12,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Member {
+public class Members {
     @Id
     @GeneratedValue
     @Column(name = "member_id")
@@ -29,15 +29,15 @@ public class Member {
     private String phoneNumber;
     private String defaultDeliveryAddress;
 
-    public static Member registerMember(JoinRequestDto joinRequestDto){
-        Member member = new Member();
-        member.email = joinRequestDto.getEmail();
-        member.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
-        member.name = joinRequestDto.getName();
-        member.nickName = joinRequestDto.getNickName();
-        member.password = joinRequestDto.getPassword();
-        member.phoneNumber = joinRequestDto.getPhoneNumber();
-        return member;
+    public static Members registerMember(JoinRequestDto joinRequestDto){
+        Members members = new Members();
+        members.email = joinRequestDto.getEmail();
+        members.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
+        members.name = joinRequestDto.getName();
+        members.nickName = joinRequestDto.getNickName();
+        members.password = joinRequestDto.getPassword();
+        members.phoneNumber = joinRequestDto.getPhoneNumber();
+        return members;
     }
 }
 

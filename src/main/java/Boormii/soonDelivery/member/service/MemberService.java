@@ -1,6 +1,6 @@
 package Boormii.soonDelivery.member.service;
 
-import Boormii.soonDelivery.member.domain.Member;
+import Boormii.soonDelivery.member.domain.Members;
 import Boormii.soonDelivery.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,19 +16,19 @@ public class MemberService {
 //    private final PasswordEncoder passwordEncoder;
 
     @Transactional
-    public Long join(Member member){
+    public Long join(Members members){
 //        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        memberRepository.save(member);
-        return member.getId();
+        memberRepository.save(members);
+        return members.getId();
     }
     public void validateDuplicateEmail(String email){
-        Optional<Member> newMember = memberRepository.findByEmail(email);
+        Optional<Members> newMember = memberRepository.findByEmail(email);
         if(newMember.isPresent()){
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
     public String validateDuplicateNickName(String nickname){
-        Optional<Member> newMember = memberRepository.findByNickName(nickname);
+        Optional<Members> newMember = memberRepository.findByNickName(nickname);
         
         // 던져
         
