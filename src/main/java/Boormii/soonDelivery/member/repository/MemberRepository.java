@@ -1,13 +1,14 @@
 package Boormii.soonDelivery.member.repository;
 
-import Boormii.soonDelivery.member.domain.Member;
+import Boormii.soonDelivery.member.domain.Members;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
+public interface MemberRepository extends JpaRepository<Members, Long> {
 
-    public Optional<Member> findByEmail(String email);
+    Optional<Members> findByEmail(String email);
 
-    public Optional<Member> findByNickName(String nickName);
+    Optional<Members> findByNickName(String nickName);
+
 }
