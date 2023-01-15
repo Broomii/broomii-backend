@@ -1,6 +1,6 @@
-package Boormii.soonDelivery.mirotic.domain;
+package Boormii.soonDelivery.orders.domain;
 
-import Boormii.soonDelivery.mirotic.dto.OrderRequestDto;
+import Boormii.soonDelivery.orders.dto.OrdersRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,14 +39,14 @@ public class Orders {
 
     private String requirement;
 
-    public static Orders createOrder(OrderRequestDto orderRequestDto){
+    public static Orders createOrder(OrdersRequestDto ordersRequestDto){
         Orders orders = new Orders();
-        orders.storeName = orderRequestDto.getStoreName();
-        orders.title = orderRequestDto.getTitle();
-        orders.deliveryAddress = orderRequestDto.getDeliveryAddress();
-        orders.totalPrice = orderRequestDto.getTotalPrice();
-        orders.deliveryPay = orderRequestDto.getDeliveryPay();
-        orders.requirement = orderRequestDto.getRequirement();
+        orders.storeName = ordersRequestDto.getStoreName();
+        orders.title = ordersRequestDto.getTitle();
+        orders.deliveryAddress = ordersRequestDto.getDeliveryAddress();
+        orders.totalPrice = ordersRequestDto.getTotalPrice();
+        orders.deliveryPay = ordersRequestDto.getDeliveryPay();
+        orders.requirement = ordersRequestDto.getRequirement();
 
         return orders;
     }

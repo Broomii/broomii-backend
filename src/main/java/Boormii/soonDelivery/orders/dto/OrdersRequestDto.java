@@ -1,10 +1,10 @@
-package Boormii.soonDelivery.mirotic.dto;
+package Boormii.soonDelivery.orders.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class OrderRequestDto {
+public class OrdersRequestDto {
     @NotNull
     private String title;
 
