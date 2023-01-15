@@ -2,6 +2,9 @@ package Boormii.soonDelivery.members.utils;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeUtility;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 
@@ -12,7 +15,7 @@ public class MailMessage {
     private MimeMessage message;
     private MimeMessageHelper messageHelper;
 
-    public MailMessage(JavaMailSender mailSender) throws MessagingException {
+    public MailMessage(JavaMailSender mailSender) throws MessagingException, UnsupportedEncodingException {
         this.javaMailSender = mailSender;
         message = this.javaMailSender.createMimeMessage();
         messageHelper = new MimeMessageHelper(message, true, "UTF-8");
@@ -23,7 +26,7 @@ public class MailMessage {
     }
 
     public void setText(String htmlContent) throws MessagingException {
-        messageHelper.setSubject(htmlContent);
+        messageHelper.setText(htmlContent);
     }
 
     public void setFrom(String email, String name) throws UnsupportedEncodingException, MessagingException {
@@ -31,12 +34,12 @@ public class MailMessage {
     }
 
     public void setTo(String email) throws MessagingException {
-        messageHelper.setSubject(email);
+        messageHelper.setTo(email);
     }
 
-    public String getNewAccountConfirmMsgForm(String toEmail, String authKey) {
+    public String emailDuplicateCheckMsgForm(String toEmail, String authKey) {
         String msg = "";
-        msg += "<div style=\"margin: 0, auto; width: 50%; padding:36px 24px\">";
+        msg += "<div style=\"width: 50%; padding:36px 24px\">";
         msg += "<h1 style=\"font-size:36px;\"> 이메일 인증 코드</h1>";
         msg += "<br>";
         msg += "<div>";
