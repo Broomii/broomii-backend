@@ -14,7 +14,7 @@ public class MembersController {
     private final MembersService membersService;
     private final ResponseService responseService;
 
-    @PostMapping("api/join")
+    @PostMapping("members/join")
     public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto)
     {
         Members members = Members.registerMember(joinRequestDto);
@@ -22,7 +22,7 @@ public class MembersController {
     }
 
 //    이메일로 인증번호 전송
-    @GetMapping("/api/sendCertification/{email}")
+    @GetMapping("members/sendCertification/{email}")
     public void validateDuplicatedId(@PathVariable("email") String email)
     {
         membersService.validateDuplicateEmail(email);
@@ -32,7 +32,7 @@ public class MembersController {
 
 
 //    닉네임 중복 검증
-    @GetMapping("/api/checkNickname/{nickname}")
+    @GetMapping("members/checkNickname/{nickname}")
     public String validateDuplicatedNickname(@PathVariable("nickname") String nickname)
     {
         return membersService.validateDuplicateNickName(nickname);
