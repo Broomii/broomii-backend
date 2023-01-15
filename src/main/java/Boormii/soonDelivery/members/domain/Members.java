@@ -1,6 +1,6 @@
-package Boormii.soonDelivery.member.domain;
+package Boormii.soonDelivery.members.domain;
 
-import Boormii.soonDelivery.member.dto.JoinRequestDto;
+import Boormii.soonDelivery.members.dto.JoinRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

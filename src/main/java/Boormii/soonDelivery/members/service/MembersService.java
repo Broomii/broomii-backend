@@ -1,7 +1,7 @@
-package Boormii.soonDelivery.member.service;
+package Boormii.soonDelivery.members.service;
 
-import Boormii.soonDelivery.member.domain.Members;
-import Boormii.soonDelivery.member.repository.MemberRepository;
+import Boormii.soonDelivery.members.domain.Members;
+import Boormii.soonDelivery.members.repository.MembersRepository;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,27 +11,27 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
-    private final MemberRepository memberRepository;
+public class MembersService {
+    private final MembersRepository membersRepository;
 //    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public Long join(Members members){
 //        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        memberRepository.save(members);
+        membersRepository.save(members);
         return members.getId();
     }
     public void validateDuplicateEmail(String email){
-        Optional<Members> newMember = memberRepository.findByEmail(email);
+        Optional<Members> newMember = membersRepository.findByEmail(email);
         if(newMember.isPresent()){
             throw new IllegalStateException("이미 가입된 회원입니다.");
         }
     }
     public String validateDuplicateNickName(String nickname){
-        Optional<Members> newMember = memberRepository.findByNickName(nickname);
-        
+        Optional<Members> newMember = membersRepository.findByNickName(nickname);
+
         // 던져
-        
+
         if(newMember.isPresent()){
             return "이미 존재하는 닉네임입니다.";
         }

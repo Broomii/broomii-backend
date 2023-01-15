@@ -1,31 +1,31 @@
-package Boormii.soonDelivery.member.controller;
+package Boormii.soonDelivery.members.controller;
 
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
-import Boormii.soonDelivery.member.domain.Members;
-import Boormii.soonDelivery.member.dto.JoinRequestDto;
-import Boormii.soonDelivery.member.service.MemberService;
+import Boormii.soonDelivery.members.domain.Members;
+import Boormii.soonDelivery.members.dto.JoinRequestDto;
+import Boormii.soonDelivery.members.service.MembersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-public class MemberController {
-    private final MemberService memberService;
+public class MembersController {
+    private final MembersService membersService;
     private final ResponseService responseService;
 
     @PostMapping("api/join")
     public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto)
     {
         Members members = Members.registerMember(joinRequestDto);
-        return responseService.getSuccessResponse("회원 가입 성공", memberService.join(members));
+        return responseService.getSuccessResponse("회원 가입 성공", membersService.join(members));
     }
 
 //    이메일로 인증번호 전송
     @GetMapping("/api/sendCertification/{email}")
     public void validateDuplicatedId(@PathVariable("email") String email)
     {
-        memberService.validateDuplicateEmail(email);
+        membersService.validateDuplicateEmail(email);
     }
 
 //    인증번호 체크
@@ -35,7 +35,7 @@ public class MemberController {
     @GetMapping("/api/checkNickname/{nickname}")
     public String validateDuplicatedNickname(@PathVariable("nickname") String nickname)
     {
-        return memberService.validateDuplicateNickName(nickname);
+        return membersService.validateDuplicateNickName(nickname);
 
     }
 

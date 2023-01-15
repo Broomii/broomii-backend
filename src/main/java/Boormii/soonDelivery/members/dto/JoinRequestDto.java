@@ -1,4 +1,4 @@
-package Boormii.soonDelivery.member.dto;
+package Boormii.soonDelivery.members.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
