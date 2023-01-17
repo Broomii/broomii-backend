@@ -1,6 +1,7 @@
 package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.members.utils.MailMessage;
+import Boormii.soonDelivery.members.utils.RedisUtil;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -12,10 +13,16 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class MailService {
+
+    private final static Integer FIVE_MINUTE = 300000;
+
     private final JavaMailSender javaMailSender;
 
     private static final String from_address = "olzlgur@naver.com";
     private static final String text = "이메일 인증 코드";
+
+    private final JavaMailSender emailSender;
+    private final RedisUtil redisUtil;
 
     public String mailSend(String email) {
         String certificationKey = createKey();
@@ -24,6 +31,9 @@ public class MailService {
             mailMessage.setSubject(text);
             mailMessage.setFrom(MailService.from_address, "Broomii");
             mailMessage.setTo(email);
+
+//          code 부분 수정
+            redisUtil.setDataExpire("code", email, FIVE_MINUTE);
 
             String message = mailMessage.emailDuplicateCheckMsgForm(email, certificationKey);
 
