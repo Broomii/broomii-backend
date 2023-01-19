@@ -1,8 +1,8 @@
 package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.members.utils.MailMessage;
+import Boormii.soonDelivery.members.utils.RedisUtil;
 import jakarta.mail.MessagingException;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -13,18 +13,26 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class MailService {
+
+    private final static Integer FIVE_MINUTE = 300000;
+
     private final JavaMailSender javaMailSender;
 
     private static final String from_address = "olzlgur@naver.com";
     private static final String text = "이메일 인증 코드";
 
-    public String mailSend(String email, HttpServletRequest request) {
+    private final JavaMailSender emailSender;
+    private final RedisUtil redisUtil;
+
+    public String mailSend(String email) {
         String certificationKey = createKey();
         try {
             MailMessage mailMessage = new MailMessage(javaMailSender);
             mailMessage.setSubject(text);
             mailMessage.setFrom(MailService.from_address, "Broomii");
             mailMessage.setTo(email);
+
+            redisUtil.setDataExpire(certificationKey, email, FIVE_MINUTE);
 
             String message = mailMessage.emailDuplicateCheckMsgForm(email, certificationKey);
 
