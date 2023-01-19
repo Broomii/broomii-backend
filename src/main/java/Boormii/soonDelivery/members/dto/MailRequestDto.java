@@ -1,10 +1,8 @@
 package Boormii.soonDelivery.members.dto;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
-public class MailDto {
+public class MailRequestDto {
     private String email;
 }
