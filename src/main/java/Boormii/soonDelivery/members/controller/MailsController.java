@@ -4,6 +4,7 @@ import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.members.dto.MailDto;
 import Boormii.soonDelivery.members.service.MailService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,8 +17,8 @@ public class MailsController {
     private final ResponseService responseService;
 
     @PostMapping("mail/sendCertificationNumber")
-    public CommonResponse<Object> sendCertificationNumber(@RequestBody MailDto mailDto){
-        mailService.mailSend(mailDto.getEmail());
+    public CommonResponse<Object> sendCertificationNumber(@RequestBody MailDto mailDto, HttpServletRequest request){
+        mailService.mailSend(mailDto.getEmail(), request);
         return responseService.getSuccessResponse("메일 전송 완료", null);
     }
 }

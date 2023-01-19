@@ -2,6 +2,7 @@ package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.members.utils.MailMessage;
 import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class MailService {
     private static final String from_address = "olzlgur@naver.com";
     private static final String text = "이메일 인증 코드";
 
-    public String mailSend(String email) {
+    public String mailSend(String email, HttpServletRequest request) {
         String certificationKey = createKey();
         try {
             MailMessage mailMessage = new MailMessage(javaMailSender);
