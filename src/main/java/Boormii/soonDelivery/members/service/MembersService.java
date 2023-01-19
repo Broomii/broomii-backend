@@ -1,7 +1,9 @@
 package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.members.domain.Members;
+import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
 import Boormii.soonDelivery.members.repository.MembersRepository;
+import Boormii.soonDelivery.members.utils.RedisUtil;
 import lombok.RequiredArgsConstructor;
 //import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MembersService {
     private final MembersRepository membersRepository;
+    private final RedisUtil redisUtil;
 //    private final PasswordEncoder passwordEncoder;
 
     @Transactional
@@ -37,6 +40,17 @@ public class MembersService {
         }
         else {
             return "사용할 수 있는 닉네임 입니다.";
+        }
+    }
+
+    public String getDefaultAddress(String email) {
+        return membersRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new).getDefaultDeliveryAddress();
+    }
+
+    public void confirmCertification(ConfirmCertificationRequestDto confirmCertificationRequestDto) {
+
+        if (!redisUtil.getData(confirmCertificationRequestDto.getCertification()).equals(confirmCertificationRequestDto.getEmail())) {
+            throw new IllegalArgumentException("인증 번호가 다릅니다.");
         }
     }
 }
