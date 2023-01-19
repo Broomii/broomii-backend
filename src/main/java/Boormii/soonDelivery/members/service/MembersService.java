@@ -39,4 +39,8 @@ public class MembersService {
             return "사용할 수 있는 닉네임 입니다.";
         }
     }
+
+    public String getDefaultAddress(String email) {
+        return membersRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new).getDefaultDeliveryAddress();
+    }
 }

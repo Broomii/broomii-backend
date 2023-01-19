@@ -39,4 +39,11 @@ public class MembersController {
 
     }
 
+//    사용자 기본 주소 반환
+    @GetMapping("members/getDefaultAddress/{email}")
+    public String getDefaultAddress(@PathVariable("email") String email)
+    {
+        return membersService.getDefaultAddress(email);
+    }
+
 }
