@@ -37,6 +37,8 @@ public class Orders {
     @NotNull
     private Integer deliveryPay;
 
+    private OrderState state;
+
     private String requirement;
 
     public static Orders createOrder(OrdersRequestDto ordersRequestDto){
@@ -47,6 +49,7 @@ public class Orders {
         orders.totalPrice = ordersRequestDto.getTotalPrice();
         orders.deliveryPay = ordersRequestDto.getDeliveryPay();
         orders.requirement = ordersRequestDto.getRequirement();
+        orders.state = OrderState.deliverable;
 
         return orders;
     }
