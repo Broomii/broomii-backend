@@ -15,7 +15,6 @@ public class OrdersService {
     @Transactional
     public OrdersResponseDto createOrder(Orders orders){
         ordersRepository.save(orders);
-        OrdersResponseDto ordersResponseDto = OrdersResponseDto.registerOrder(ordersRepository.findByTitle("d"));
-        return ordersResponseDto;
+        return OrdersResponseDto.registerOrder(orders);
     }
 }

@@ -1,10 +1,8 @@
 package Boormii.soonDelivery.orders.domain;
 
+import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.orders.dto.OrdersRequestDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,6 +38,10 @@ public class Orders {
     private OrderState state;
 
     private String requirement;
+
+//    @ManyToOne
+//    private Members member;
+
 
     public static Orders createOrder(OrdersRequestDto ordersRequestDto){
         Orders orders = new Orders();
