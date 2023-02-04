@@ -1,10 +1,7 @@
 package Boormii.soonDelivery.members.domain;
 
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -29,7 +26,11 @@ public class Members {
     private String phoneNumber;
     private String defaultDeliveryAddress;
 
-    public static Members registerMember(JoinRequestDto joinRequestDto){
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    public static Members registerMember(JoinRequestDto joinRequestDto) {
         Members members = new Members();
         members.email = joinRequestDto.getEmail();
         members.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
@@ -37,11 +38,18 @@ public class Members {
         members.nickName = joinRequestDto.getNickName();
         members.password = joinRequestDto.getPassword();
         members.phoneNumber = joinRequestDto.getPhoneNumber();
+        members.authority = Authority.ROLE_USER;
+        return members;
+    }
+
+    public static Members createMemberByEmailAndPW(String email, String password) {
+        Members members = new Members();
+        members.setEmail(email);
+        members.setPassword(password);
+
         return members;
     }
 }
-
-
 
 
 //- 이름 *

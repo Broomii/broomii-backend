@@ -1,6 +1,7 @@
 package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.members.utils.MailMessage;
+//import Boormii.soonDelivery.members.utils.RedisUtil;
 import Boormii.soonDelivery.members.utils.RedisUtil;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;

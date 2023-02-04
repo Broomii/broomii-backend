@@ -19,13 +19,13 @@ repositories {
 }
 
 dependencies {
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-	implementation group: 'org.springframework.security', name: 'spring-security-config'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+	implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -36,6 +36,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation group: 'it.ozimov', name: 'embedded-redis', version: '0.7.2'
 	implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
 }
 
