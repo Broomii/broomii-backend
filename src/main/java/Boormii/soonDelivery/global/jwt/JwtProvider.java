@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JwtProvider {
 
-    @Value("${spring.jwt.secret")
+    @Value("${spring.jwt.secret}")
     private static String SECRET_KEY;
     private static final String AUTHORITIES_KEY = "auth";
     private static final Long ACCESS_TOKEN_VALID_TIME = 10 * 60 * 1000L; // 10min
