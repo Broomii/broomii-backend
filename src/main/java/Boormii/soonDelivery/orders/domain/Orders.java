@@ -1,6 +1,5 @@
 package Boormii.soonDelivery.orders.domain;
 
-import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.orders.dto.OrdersRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

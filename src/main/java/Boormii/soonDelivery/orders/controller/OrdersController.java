@@ -6,9 +6,7 @@ import Boormii.soonDelivery.orders.domain.Orders;
 import Boormii.soonDelivery.orders.dto.OrdersRequestDto;
 import Boormii.soonDelivery.orders.service.OrdersService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,5 +19,11 @@ public class OrdersController {
     {
         Orders orders = Orders.createOrder(ordersRequestDto);
         return responseService.getSuccessResponse("주문 생성 완료", ordersService.createOrder(orders));
+    }
+
+    @DeleteMapping("orders/delete/{id}")
+    public CommonResponse<Object> deleteOrder(@PathVariable("id") Long id) {
+        ordersService.deleteOrder(id);
+        return responseService.getSuccessResponse("주문 삭제 완료", null);
     }
 }

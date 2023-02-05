@@ -13,6 +13,11 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
 
     @Transactional
+    public void deleteOrder(Long id) {
+        ordersRepository.deleteById(id);
+    }
+
+    @Transactional
     public OrdersResponseDto createOrder(Orders orders){
         ordersRepository.save(orders);
         return OrdersResponseDto.registerOrder(orders);
