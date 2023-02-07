@@ -1,6 +1,7 @@
 package Boormii.soonDelivery.orders.domain;
 
-import Boormii.soonDelivery.orders.dto.OrdersRequestDto;
+import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
+import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -41,18 +42,29 @@ public class Orders {
 //    @ManyToOne
 //    private Members member;
 
-
-    public static Orders createOrder(OrdersRequestDto ordersRequestDto){
+    public static Orders createOrder(OrdersCreateRequestDto ordersCreateRequestDto){
         Orders orders = new Orders();
-        orders.storeName = ordersRequestDto.getStoreName();
-        orders.title = ordersRequestDto.getTitle();
-        orders.deliveryAddress = ordersRequestDto.getDeliveryAddress();
-        orders.totalPrice = ordersRequestDto.getTotalPrice();
-        orders.deliveryPay = ordersRequestDto.getDeliveryPay();
-        orders.requirement = ordersRequestDto.getRequirement();
+        orders.storeName = ordersCreateRequestDto.getStoreName();
+        orders.title = ordersCreateRequestDto.getTitle();
+        orders.deliveryAddress = ordersCreateRequestDto.getDeliveryAddress();
+        orders.totalPrice = ordersCreateRequestDto.getTotalPrice();
+        orders.deliveryPay = ordersCreateRequestDto.getDeliveryPay();
+        orders.requirement = ordersCreateRequestDto.getRequirement();
         orders.state = OrderState.deliverable;
 
         return orders;
+    }
+
+    public Long editOrder(OrdersEditRequestDto ordersEditRequestDto){
+        this.storeName = ordersEditRequestDto.getStoreName();
+        this.title = ordersEditRequestDto.getTitle();
+        this.deliveryAddress = ordersEditRequestDto.getDeliveryAddress();
+        this.totalPrice = ordersEditRequestDto.getTotalPrice();
+        this.deliveryPay = ordersEditRequestDto.getDeliveryPay();
+        this.requirement = ordersEditRequestDto.getRequirement();
+        this.state = OrderState.deliverable;
+
+        return this.getId();
     }
 
 }

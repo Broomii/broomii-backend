@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class OrdersRequestDto {
+public class OrdersCreateRequestDto {
     @NotNull
     private String title;
 
