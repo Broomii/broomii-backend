@@ -30,10 +30,15 @@ public class MembersService {
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate redisTemplate;
     @Transactional
-    public Long join(Members members){
+    public TokenDto join(Members members){
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(members.getEmail(), members.getPassword());
         members.setPassword(passwordEncoder.encode(members.getPassword()));
         membersRepository.save(members);
-        return members.getId();
+        Authentication authentication = authenticationManageBuilder.getObject().authenticate(authenticationToken);
+        TokenDto tokenDto = jwtProvider.generateToken(authentication);
+        redisTemplate.opsForValue()
+                .set(authentication.getName(), tokenDto.getRefreshToken(),  tokenDto.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+        return tokenDto;
     }
 
     public TokenDto login(LoginRequestDto loginRequestDto) {
