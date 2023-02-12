@@ -2,14 +2,12 @@ package Boormii.soonDelivery.members.service;
 
 import Boormii.soonDelivery.global.jwt.JwtProvider;
 import Boormii.soonDelivery.members.domain.Members;
-import Boormii.soonDelivery.members.domain.RefreshToken;
 import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
 import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
 import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.members.utils.RedisUtil;
-import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,11 +1,13 @@
 package Boormii.soonDelivery.orders.controller;
 
+import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.orders.domain.Orders;
 import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import Boormii.soonDelivery.orders.service.OrdersService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +16,11 @@ import org.springframework.web.bind.annotation.*;
 public class OrdersController {
     private final OrdersService ordersService;
     private final ResponseService responseService;
-
+    private final JwtUtils jwtUtils;
     @PostMapping("orders/create")
-    public CommonResponse<Object> createOrder(@RequestBody OrdersCreateRequestDto ordersCreateRequestDto)
+    public CommonResponse<Object> createOrder(@RequestBody OrdersCreateRequestDto ordersCreateRequestDto, HttpServletRequest http)
     {
-        Orders orders = Orders.createOrder(ordersCreateRequestDto);
+        Orders orders = Orders.createOrder(ordersCreateRequestDto, jwtUtils.getEmailFromRequestHeader(http));
         return responseService.getSuccessResponse("주문 생성 완료", ordersService.createOrder(orders));
     }
 

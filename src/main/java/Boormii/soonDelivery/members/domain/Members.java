@@ -1,9 +1,12 @@
 package Boormii.soonDelivery.members.domain;
 
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
+import Boormii.soonDelivery.orders.domain.Orders;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Getter

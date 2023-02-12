@@ -3,6 +3,7 @@ package Boormii.soonDelivery.global.config;
 import Boormii.soonDelivery.global.jwt.JwtAccessDeniedHandler;
 import Boormii.soonDelivery.global.jwt.JwtAuthenticationEntryPoint;
 import Boormii.soonDelivery.global.jwt.JwtProvider;
+import Boormii.soonDelivery.global.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ public class SecurityConfig{
     private final JwtProvider jwtProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+    private final JwtUtils jwtUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -60,7 +62,7 @@ public class SecurityConfig{
 
                 //JwtFilter를 addFilterBefore로 등록했던 JwtSecurityConfig 클래스 적용
                 .and()
-                .apply(new JwtSecurityConfig(jwtProvider));
+                .apply(new JwtSecurityConfig(jwtProvider, jwtUtils));
 
         return http.build();
     }

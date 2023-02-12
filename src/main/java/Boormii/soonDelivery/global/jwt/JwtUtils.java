@@ -3,14 +3,17 @@ package Boormii.soonDelivery.global.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.security.Key;
+
 @Component
-@RequiredArgsConstructor
 public class JwtUtils {
 
     @Value("${spring.jwt.secret}")
@@ -18,10 +21,16 @@ public class JwtUtils {
     public static final String AUTHORIZATION_HEADER = "Authorization";
     public static final String BEARER_PREFIX = "Bearer ";
 
+    private Key key;
+
+    public JwtUtils(@Value("${spring.jwt.secret}") String secretKey){
+        byte[] keyBytes = Decoders.BASE64URL.decode(secretKey);
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
     public String getEmailFromRequestHeader(HttpServletRequest request){
         String token = resolveToken(request);
         Claims claims = parseClaims(token);
-        return claims.get("email").toString();
+        return claims.getSubject();
     }
 
     public Boolean checkJwtWithID(HttpServletRequest request, Long _id){
@@ -44,8 +53,9 @@ public class JwtUtils {
     }
 
     private Claims parseClaims(String accessToken){
+        System.out.println(this.key);
         try{
-            return Jwts.parserBuilder().setSigningKey(SECRET_KEY).build().parseClaimsJws(accessToken).getBody();
+            return Jwts.parserBuilder().setSigningKey(this.key).build().parseClaimsJws(accessToken).getBody();
         }
         catch (ExpiredJwtException e){
             return e.getClaims();
