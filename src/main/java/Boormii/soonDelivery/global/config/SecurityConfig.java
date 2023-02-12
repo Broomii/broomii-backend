@@ -50,7 +50,11 @@ public class SecurityConfig{
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST,"/members/**").permitAll()
+                .requestMatchers(HttpMethod.POST,"/orders/**").authenticated()
+                .requestMatchers(HttpMethod.GET,"/orders/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/orders/**").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/orders/**").authenticated()
+
 //                .requestMatchers(HttpMethod.POST, "/members").authenticated()
                 .anyRequest().permitAll()
 

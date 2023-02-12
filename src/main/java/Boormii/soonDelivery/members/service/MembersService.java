@@ -3,6 +3,7 @@ package Boormii.soonDelivery.members.service;
 import Boormii.soonDelivery.global.jwt.JwtProvider;
 import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.domain.RefreshToken;
+import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
 import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
@@ -29,6 +30,8 @@ public class MembersService {
     private final JwtProvider jwtProvider;
     private final PasswordEncoder passwordEncoder;
     private final RedisTemplate redisTemplate;
+
+    private final RedisUtil redisUtil;
     @Transactional
     public TokenDto join(Members members){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(members.getEmail(), members.getPassword());
@@ -78,12 +81,12 @@ public class MembersService {
         return membersRepository.findByEmail(email).orElseThrow(IllegalArgumentException::new).getDefaultDeliveryAddress();
     }
 
-//    public void confirmCertification(ConfirmCertificationRequestDto confirmCertificationRequestDto) {
-//
-//        if (!redisUtil.getData(confirmCertificationRequestDto.getCertification()).equals(confirmCertificationRequestDto.getEmail())) {
-//            throw new IllegalArgumentException("인증 번호가 다릅니다.");
-//        }
-//    }
+    public void confirmCertification(ConfirmCertificationRequestDto confirmCertificationRequestDto) {
+
+        if (!redisUtil.getData(confirmCertificationRequestDto.getCertification()).equals(confirmCertificationRequestDto.getEmail())) {
+            throw new IllegalArgumentException("인증 번호가 다릅니다.");
+        }
+    }
 
     public TokenDto reissueToken(RefreshRequestDto refreshRequestDto){
 //        if (!jwtProvider.validateToken(refreshRequestDto.getRefreshToken())) {

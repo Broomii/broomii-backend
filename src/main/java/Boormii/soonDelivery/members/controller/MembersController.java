@@ -3,6 +3,7 @@ package Boormii.soonDelivery.members.controller;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.members.domain.Members;
+import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
 import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
@@ -37,11 +38,11 @@ public class MembersController {
     }
 
     //    인증번호 확인
-//    @PostMapping("members/confirmCertification")
-//    public CommonResponse<Object> confirmCertification(@RequestBody ConfirmCertificationRequestDto confirmCertificationRequestDto) {
-//        membersService.confirmCertification(confirmCertificationRequestDto);
-//        return responseService.getSuccessResponse("인증 번호 확인 완료", null);
-//    }
+    @PostMapping("members/confirmCertification")
+    public CommonResponse<Object> confirmCertification(@RequestBody ConfirmCertificationRequestDto confirmCertificationRequestDto) {
+        membersService.confirmCertification(confirmCertificationRequestDto);
+        return responseService.getSuccessResponse("인증 번호 확인 완료", null);
+    }
 
     //    닉네임 중복 검증
     @GetMapping("members/checkNickname/{nickname}")

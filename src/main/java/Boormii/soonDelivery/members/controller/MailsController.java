@@ -15,9 +15,9 @@ public class MailsController {
     private final MailService mailService;
     private final ResponseService responseService;
 
-//    @PostMapping("mail/sendCertificationNumber")
-//    public CommonResponse<Object> sendCertificationNumber(@RequestBody MailRequestDto mailRequestDto){
-//        mailService.mailSend(mailRequestDto.getEmail());
-//        return responseService.getSuccessResponse("메일 전송 완료", null);
-//    }
+        @PostMapping("mail/sendCertificationNumber")
+    public CommonResponse<Object> sendCertificationNumber(@RequestBody MailRequestDto mailRequestDto){
+        mailService.mailSend(mailRequestDto.getEmail());
+        return responseService.getSuccessResponse("메일 전송 완료", null);
+    }
 }

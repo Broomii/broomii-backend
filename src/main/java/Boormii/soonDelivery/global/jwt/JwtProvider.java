@@ -85,8 +85,9 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String token) {
+        System.out.println(this.key);
         try {Jwts.parserBuilder()
-            .setSigningKey(SECRET_KEY).build().parseClaimsJws(token);
+            .setSigningKey(this.key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("잘못된 JWT 서명입니다.");
