@@ -21,6 +21,8 @@ public class Orders {
     private Long id;
 
     @NotNull
+    private String email;
+    @NotNull
     private String title;
 
     @NotNull
@@ -42,7 +44,7 @@ public class Orders {
 //    @ManyToOne
 //    private Members member;
 
-    public static Orders createOrder(OrdersCreateRequestDto ordersCreateRequestDto){
+    public static Orders createOrder(OrdersCreateRequestDto ordersCreateRequestDto, String email){
         Orders orders = new Orders();
         orders.storeName = ordersCreateRequestDto.getStoreName();
         orders.title = ordersCreateRequestDto.getTitle();
@@ -50,6 +52,7 @@ public class Orders {
         orders.totalPrice = ordersCreateRequestDto.getTotalPrice();
         orders.deliveryPay = ordersCreateRequestDto.getDeliveryPay();
         orders.requirement = ordersCreateRequestDto.getRequirement();
+        orders.email = email;
         orders.state = OrderState.deliverable;
 
         return orders;
