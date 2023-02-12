@@ -24,6 +24,8 @@ public class Members {
     private String password;
     @NotNull
     private String phoneNumber;
+    private String department;
+    private Sex sex;
     private String defaultDeliveryAddress;
 
     @NotNull
@@ -38,6 +40,8 @@ public class Members {
         members.nickName = joinRequestDto.getNickName();
         members.password = joinRequestDto.getPassword();
         members.phoneNumber = joinRequestDto.getPhoneNumber();
+        members.department = joinRequestDto.getDepartment();
+        members.sex = Sex.valueOf(joinRequestDto.getSex());
         members.authority = Authority.ROLE_USER;
         return members;
     }

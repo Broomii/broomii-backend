@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.members.dto;
 
+import Boormii.soonDelivery.members.domain.Sex;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
@@ -23,6 +24,10 @@ public class JoinRequestDto {
 
     @NotNull
     private String phoneNumber;
+
+    private String department;
+
+    private String sex;
 
     private String defaultDeliveryAddress;
 }
