@@ -37,6 +37,12 @@ public class OrdersController {
         return responseService.getSuccessResponse("주문 조회 완료 ", ordersService.getOrder(id));
     }
 
+    @GetMapping("orders/getOrderList")
+    public CommonResponse<Object> getOrderList()
+    {
+        return responseService.getSuccessResponse("주문 목록 반환 완료", ordersService.getOrderList());
+    }
+
     @PutMapping("orders/edit")
     public CommonResponse<Object> editOrder(@RequestBody OrdersEditRequestDto ordersEditRequestDto)
     {
