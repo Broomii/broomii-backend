@@ -55,7 +55,6 @@ public class JwtProvider {
         String accessToken = Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
-//                .claim("email", member.getEmail())
                 .setExpiration(accessTokenExpireTime)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
@@ -85,7 +84,6 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String token) {
-        System.out.println(this.key);
         try {Jwts.parserBuilder()
             .setSigningKey(this.key).build().parseClaimsJws(token);
             return true;
