@@ -47,13 +47,13 @@ public class MembersController {
     //    닉네임 중복 검증
     @GetMapping("members/checkNickname/{nickname}")
     public CommonResponse<Object> validateDuplicatedNickname(@PathVariable("nickname") String nickname) {
-        return responseService.getSuccessResponse("인증 번호 전송 성공", membersService.validateDuplicateNickName(nickname));
+        return responseService.getSuccessResponse("사용 가능한 닉네임입니다.", membersService.validateDuplicateNickName(nickname));
     }
 
     //    사용자 기본 주소 반환
     @GetMapping("members/getDefaultAddress/{email}")
-    public String getDefaultAddress(@PathVariable("email") String email) {
-        return membersService.getDefaultAddress(email);
+    public CommonResponse<Object> getDefaultAddress(@PathVariable("email") String email) {
+        return responseService.getSuccessResponse("기본 배송지 불러오기 성공", membersService.getDefaultAddress(email));
     }
 
     @PostMapping("members/refreshToken")
