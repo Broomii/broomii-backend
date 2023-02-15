@@ -33,9 +33,7 @@ public class MailService {
             mailMessage.setFrom(MailService.from_address, "Broomii");
             mailMessage.setTo(email);
 
-            System.out.println(certificationKey);
-
-            redisUtil.setDataExpire(certificationKey, email, FIVE_MINUTE);
+            redisUtil.setDataExpire(email, certificationKey, FIVE_MINUTE);
 
             String message = mailMessage.emailDuplicateCheckMsgForm(email, certificationKey);
 
