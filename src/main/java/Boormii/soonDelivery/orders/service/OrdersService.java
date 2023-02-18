@@ -2,10 +2,7 @@ package Boormii.soonDelivery.orders.service;
 
 import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.orders.domain.Orders;
-import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
-import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
-import Boormii.soonDelivery.orders.dto.OrdersListResponseDto;
-import Boormii.soonDelivery.orders.dto.OrdersResponseDto;
+import Boormii.soonDelivery.orders.dto.*;
 import Boormii.soonDelivery.orders.repository.OrdersRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
@@ -56,5 +53,11 @@ public class OrdersService {
         Optional<Orders> editedOrder = ordersRepository.findById(ordersEditRequestDto.getId());
 
         return editedOrder.get().editOrder(ordersEditRequestDto);
+    }
+
+    @Transactional
+    public Long editDeliveryStatus(DeliveryStatusEditRequestDto deliveryStatusEditRequestDto){
+        Optional<Orders> orders = ordersRepository.findById(deliveryStatusEditRequestDto.getId());
+        return orders.get().editDeliveryStatus(deliveryStatusEditRequestDto.getDeliveryStatus());
     }
 }

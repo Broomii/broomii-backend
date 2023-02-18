@@ -38,7 +38,7 @@ public class Orders {
     @NotNull
     private Integer deliveryPay;
 
-    private DeliveryStatus state;
+    private DeliveryStatus deliveryStatus;
 
     private String requirement;
 
@@ -54,7 +54,7 @@ public class Orders {
         orders.deliveryPay = ordersCreateRequestDto.getDeliveryPay();
         orders.requirement = ordersCreateRequestDto.getRequirement();
         orders.nickName = nickName;
-        orders.state = DeliveryStatus.deliverable;
+        orders.deliveryStatus = DeliveryStatus.deliverable;
 
         return orders;
     }
@@ -66,9 +66,15 @@ public class Orders {
         this.totalPrice = ordersEditRequestDto.getTotalPrice();
         this.deliveryPay = ordersEditRequestDto.getDeliveryPay();
         this.requirement = ordersEditRequestDto.getRequirement();
-        this.state = DeliveryStatus.deliverable;
+        this.deliveryStatus = DeliveryStatus.deliverable;
 
         return this.getId();
+    }
+
+    public Long editDeliveryStatus(String deliveryStatus){
+        this.deliveryStatus = DeliveryStatus.valueOf(deliveryStatus);
+
+        return this.id;
     }
 
 }

@@ -43,7 +43,7 @@ public class OrdersResponseDto {
         ordersResponseDto.totalPrice = orders.getTotalPrice();
         ordersResponseDto.deliveryPay = orders.getDeliveryPay();
         ordersResponseDto.requirement = orders.getRequirement();
-        ordersResponseDto.state = orders.getState();
+        ordersResponseDto.state = orders.getDeliveryStatus();
 
         return ordersResponseDto;
     }

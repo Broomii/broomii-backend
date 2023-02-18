@@ -1,15 +1,11 @@
 package Boormii.soonDelivery.members.domain;
 
+import Boormii.soonDelivery.members.dto.EditPasswordRequestDto;
 import Boormii.soonDelivery.members.dto.EditProfileRequestDto;
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
-import Boormii.soonDelivery.orders.domain.DeliveryStatus;
-import Boormii.soonDelivery.orders.domain.Orders;
-import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -38,7 +34,7 @@ public class Members {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
-    public static Members registerMember(JoinRequestDto joinRequestDto) {
+    public static Members registerMember(JoinRequestDto joinRequestDto, String password) {
         Members members = new Members();
         members.email = joinRequestDto.getEmail();
         members.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
@@ -67,6 +63,12 @@ public class Members {
         this.department = editProfileRequestDto.getDepartment();
 
         return this.getId();
+    }
+
+    public Long editPassword(String password) {
+        this.password = password;
+
+        return this.id;
     }
 }
 

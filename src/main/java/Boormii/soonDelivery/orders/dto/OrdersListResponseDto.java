@@ -34,7 +34,7 @@ public class OrdersListResponseDto {
         ordersListResponseDto.nickName = orders.getNickName();
         ordersListResponseDto.id = orders.getId();
         ordersListResponseDto.deliveryAddress = orders.getDeliveryAddress();
-        ordersListResponseDto.deliveryStatus = orders.getState();
+        ordersListResponseDto.deliveryStatus = orders.getDeliveryStatus();
         ordersListResponseDto.deliveryPay = orders.getDeliveryPay();
 
         return ordersListResponseDto;

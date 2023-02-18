@@ -4,6 +4,8 @@ import Boormii.soonDelivery.global.exception.ApiException;
 import Boormii.soonDelivery.global.jwt.JwtProvider;
 import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
+import Boormii.soonDelivery.members.dto.EditPasswordRequestDto;
+import Boormii.soonDelivery.members.dto.JoinRequestDto;
 import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
@@ -34,10 +36,10 @@ public class MembersService {
     private final RedisUtil redisUtil;
 
     @Transactional
-    public TokenDto join(Members members) {
-        validateDuplicateEmail(members.getEmail());
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(members.getEmail(), members.getPassword());
-        members.setPassword(passwordEncoder.encode(members.getPassword()));
+    public TokenDto join(JoinRequestDto joinRequestDto) {
+        validateDuplicateEmail(joinRequestDto.getEmail());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(joinRequestDto.getEmail(), joinRequestDto.getPassword());
+        Members members = Members.registerMember(joinRequestDto, passwordEncoder.encode(joinRequestDto.getPassword()));
         membersRepository.save(members);
         Authentication authentication = authenticationManageBuilder.getObject().authenticate(authenticationToken);
         TokenDto tokenDto = jwtProvider.generateToken(authentication);
@@ -111,5 +113,12 @@ public class MembersService {
 
         // 토큰 발급
         return newToken;
+    }
+
+    // 비밀번호 변경
+    public Long editPassword(EditPasswordRequestDto editPasswordRequestDto) {
+        Optional<Members> members = membersRepository.findByEmail(editPasswordRequestDto.getEmail());
+
+        return members.get().editPassword(passwordEncoder.encode(editPasswordRequestDto.getPassword()));
     }
 }

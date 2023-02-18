@@ -4,6 +4,7 @@ import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
+import Boormii.soonDelivery.members.dto.EditPasswordRequestDto;
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
 import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
@@ -20,8 +21,7 @@ public class MembersController {
 
     @PostMapping("members/join")
     public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto) {
-        Members members = Members.registerMember(joinRequestDto);
-        return responseService.getSuccessResponse("회원 가입 성공", membersService.join(members));
+        return responseService.getSuccessResponse("회원 가입 성공", membersService.join(joinRequestDto));
     }
 
     @PostMapping("members/login")
@@ -59,6 +59,11 @@ public class MembersController {
     @PostMapping("members/refreshToken")
     public CommonResponse<Object> refresh(@RequestBody RefreshRequestDto refreshRequestDto){
         return responseService.getSuccessResponse("토큰 재발급 성공", membersService.reissueToken(refreshRequestDto));
+    }
+
+    @PostMapping("members/editPassword")
+    public CommonResponse<Object> editPassword(@RequestBody EditPasswordRequestDto editPasswordRequestDto) {
+        return responseService.getSuccessResponse("비밀번호 변경 성공", membersService.editPassword(editPasswordRequestDto));
     }
 
 }
