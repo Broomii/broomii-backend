@@ -21,7 +21,8 @@ public class Orders {
     private Long id;
 
     @NotNull
-    private String email;
+    private String nickName;
+
     @NotNull
     private String title;
 
@@ -37,14 +38,14 @@ public class Orders {
     @NotNull
     private Integer deliveryPay;
 
-    private OrderState state;
+    private DeliveryStatus state;
 
     private String requirement;
 
 //    @ManyToOne
 //    private Members member;
 
-    public static Orders createOrder(OrdersCreateRequestDto ordersCreateRequestDto, String email){
+    public static Orders createOrder(OrdersCreateRequestDto ordersCreateRequestDto, String nickName){
         Orders orders = new Orders();
         orders.storeName = ordersCreateRequestDto.getStoreName();
         orders.title = ordersCreateRequestDto.getTitle();
@@ -52,8 +53,8 @@ public class Orders {
         orders.totalPrice = ordersCreateRequestDto.getTotalPrice();
         orders.deliveryPay = ordersCreateRequestDto.getDeliveryPay();
         orders.requirement = ordersCreateRequestDto.getRequirement();
-        orders.email = email;
-        orders.state = OrderState.deliverable;
+        orders.nickName = nickName;
+        orders.state = DeliveryStatus.deliverable;
 
         return orders;
     }
@@ -65,7 +66,7 @@ public class Orders {
         this.totalPrice = ordersEditRequestDto.getTotalPrice();
         this.deliveryPay = ordersEditRequestDto.getDeliveryPay();
         this.requirement = ordersEditRequestDto.getRequirement();
-        this.state = OrderState.deliverable;
+        this.state = DeliveryStatus.deliverable;
 
         return this.getId();
     }

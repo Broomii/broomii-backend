@@ -20,8 +20,7 @@ public class OrdersController {
     @PostMapping("orders/create")
     public CommonResponse<Object> createOrder(@RequestBody OrdersCreateRequestDto ordersCreateRequestDto, HttpServletRequest http)
     {
-        Orders orders = Orders.createOrder(ordersCreateRequestDto, jwtUtils.getEmailFromRequestHeader(http));
-        return responseService.getSuccessResponse("주문 생성 완료", ordersService.createOrder(orders));
+        return responseService.getSuccessResponse("주문 생성 완료", ordersService.createOrder(ordersCreateRequestDto, jwtUtils.getEmailFromRequestHeader(http)));
     }
 
     @DeleteMapping("orders/delete/{id}")
