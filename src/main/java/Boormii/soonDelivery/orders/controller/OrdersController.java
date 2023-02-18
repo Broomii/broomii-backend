@@ -4,6 +4,7 @@ import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.orders.domain.Orders;
+import Boormii.soonDelivery.orders.dto.DeliveryStatusEditRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import Boormii.soonDelivery.orders.service.OrdersService;
@@ -46,5 +47,11 @@ public class OrdersController {
     public CommonResponse<Object> editOrder(@RequestBody OrdersEditRequestDto ordersEditRequestDto)
     {
         return responseService.getSuccessResponse("주문 수정 성공", ordersService.editOrder(ordersEditRequestDto));
+    }
+
+    @PutMapping("orders/editDeliveryStatus")
+    public CommonResponse<Object> editDeliveryStatus(@RequestBody DeliveryStatusEditRequestDto deliveryStatusEditRequestDto)
+    {
+        return responseService.getSuccessResponse("주문 수정 성공", ordersService.editDeliveryStatus(deliveryStatusEditRequestDto));
     }
 }
