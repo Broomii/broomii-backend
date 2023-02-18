@@ -56,6 +56,10 @@ public class SecurityConfig{
                 .requestMatchers(HttpMethod.GET,"/orders/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE,"/orders/**").authenticated()
                 .requestMatchers(HttpMethod.PUT,"/orders/**").authenticated()
+                .requestMatchers(HttpMethod.POST,"/mypage/**").authenticated()
+                .requestMatchers(HttpMethod.GET,"/mypage/**").authenticated()
+                .requestMatchers(HttpMethod.DELETE,"/mypage/**").authenticated()
+                .requestMatchers(HttpMethod.PUT,"/mypage/**").authenticated()
 
 //                .requestMatchers(HttpMethod.POST, "/members").authenticated()
                 .anyRequest().permitAll()
