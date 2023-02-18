@@ -116,6 +116,7 @@ public class MembersService {
     }
 
     // 비밀번호 변경
+    @Transactional
     public Long editPassword(EditPasswordRequestDto editPasswordRequestDto) {
         Optional<Members> members = membersRepository.findByEmail(editPasswordRequestDto.getEmail());
 
