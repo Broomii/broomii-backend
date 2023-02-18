@@ -1,7 +1,10 @@
 package Boormii.soonDelivery.members.domain;
 
+import Boormii.soonDelivery.members.dto.EditProfileRequestDto;
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
+import Boormii.soonDelivery.orders.domain.DeliveryStatus;
 import Boormii.soonDelivery.orders.domain.Orders;
+import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -55,6 +58,15 @@ public class Members {
         members.setPassword(password);
 
         return members;
+    }
+
+    public Long editProfile(EditProfileRequestDto editProfileRequestDto) {
+        this.name = editProfileRequestDto.getName();
+        this.nickName = editProfileRequestDto.getNickName();
+        this.defaultDeliveryAddress = editProfileRequestDto.getDefaultDeliveryAddress();
+        this.department = editProfileRequestDto.getDepartment();
+
+        return this.getId();
     }
 }
 
