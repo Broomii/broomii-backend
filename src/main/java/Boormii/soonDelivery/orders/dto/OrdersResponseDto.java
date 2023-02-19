@@ -34,7 +34,8 @@ public class OrdersResponseDto {
 
     private String requirement;
 
-    public static OrdersResponseDto registerOrder(Orders orders){
+    private int flag;
+    public static OrdersResponseDto registerOrder(Orders orders, int flag){
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto();
         ordersResponseDto.title = orders.getTitle();
         ordersResponseDto.nickName = orders.getNickName();
@@ -44,6 +45,7 @@ public class OrdersResponseDto {
         ordersResponseDto.deliveryPay = orders.getDeliveryPay();
         ordersResponseDto.requirement = orders.getRequirement();
         ordersResponseDto.state = orders.getDeliveryStatus();
+        ordersResponseDto.flag = flag;
 
         return ordersResponseDto;
     }

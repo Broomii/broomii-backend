@@ -32,9 +32,9 @@ public class OrdersController {
     }
 
     @GetMapping("orders/get/{id}")
-    public CommonResponse<Object> getOrder(@PathVariable("id") Long id)
+    public CommonResponse<Object> getOrder(@PathVariable("id") Long id, HttpServletRequest http)
     {
-        return responseService.getSuccessResponse("주문 조회 완료 ", ordersService.getOrder(id));
+        return responseService.getSuccessResponse("주문 조회 완료 ", ordersService.getOrder(id, jwtUtils.getEmailFromRequestHeader(http)));
     }
 
     @GetMapping("orders/getOrderList")
