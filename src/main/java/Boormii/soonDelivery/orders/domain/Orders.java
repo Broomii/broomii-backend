@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.orders.domain;
 
+import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
 import jakarta.persistence.*;

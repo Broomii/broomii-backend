@@ -52,6 +52,6 @@ public class OrdersController {
     @PutMapping("orders/editDeliveryStatus")
     public CommonResponse<Object> editDeliveryStatus(@RequestBody DeliveryStatusEditRequestDto deliveryStatusEditRequestDto)
     {
-        return responseService.getSuccessResponse("주문 수정 성공", ordersService.editDeliveryStatus(deliveryStatusEditRequestDto));
+        return responseService.getSuccessResponse("주문 상태 수정 성공", ordersService.editDeliveryStatus(deliveryStatusEditRequestDto));
     }
 }

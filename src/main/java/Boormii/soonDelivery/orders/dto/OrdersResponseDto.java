@@ -30,7 +30,7 @@ public class OrdersResponseDto {
     @NotNull
     private Integer deliveryPay;
 
-    private DeliveryStatus state;
+    private DeliveryStatus deliveryStatus;
 
     private String requirement;
 
@@ -44,7 +44,7 @@ public class OrdersResponseDto {
         ordersResponseDto.totalPrice = orders.getTotalPrice();
         ordersResponseDto.deliveryPay = orders.getDeliveryPay();
         ordersResponseDto.requirement = orders.getRequirement();
-        ordersResponseDto.state = orders.getDeliveryStatus();
+        ordersResponseDto.deliveryStatus = orders.getDeliveryStatus();
         ordersResponseDto.flag = flag;
 
         return ordersResponseDto;
