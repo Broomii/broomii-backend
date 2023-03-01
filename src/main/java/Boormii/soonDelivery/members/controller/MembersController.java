@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.members.controller;
 
+import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.members.domain.Members;
@@ -10,6 +11,7 @@ import Boormii.soonDelivery.members.dto.LoginRequestDto;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
 import Boormii.soonDelivery.members.service.MembersService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 public class MembersController {
     private final MembersService membersService;
     private final ResponseService responseService;
+    private final JwtUtils jwtUtils;
 
     @PostMapping("members/join")
     public CommonResponse<Object> join(@RequestBody JoinRequestDto joinRequestDto) {
@@ -51,9 +54,9 @@ public class MembersController {
     }
 
     //    사용자 기본 주소 반환
-    @GetMapping("members/getDefaultAddress/{email}")
-    public CommonResponse<Object> getDefaultAddress(@PathVariable("email") String email) {
-        return responseService.getSuccessResponse("기본 배송지 불러오기 성공", membersService.getDefaultAddress(email));
+    @GetMapping("members/getDefaultAddress")
+    public CommonResponse<Object> getDefaultAddress(HttpServletRequest http) {
+        return responseService.getSuccessResponse("기본 배송지 불러오기 성공", membersService.getDefaultAddress(jwtUtils.getEmailFromRequestHeader(http)));
     }
 
     @PostMapping("members/refreshToken")
