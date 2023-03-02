@@ -5,7 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,17 +19,22 @@ public class ChattingRoom {
     @NotNull
     private String deliveryMan;
 
-    private String latestMessage;
+    @NotNull
+    private String orderMan;
 
     @ManyToOne
     @JoinColumn(name ="orders_id")
     private Orders orders;
+
+    @OneToMany
+    private List<ChattingMessage> chattingMessageList;
 
     @Builder
     public ChattingRoom(String title, String deliveryMan, Orders orders) {
         this.id = id;
         this.deliveryMan = deliveryMan;
         this.orders = orders;
+        this.orderMan = orders.getNickName();
     }
 }
 

@@ -1,7 +1,27 @@
 package Boormii.soonDelivery.chat.repository;
 
 import Boormii.soonDelivery.chat.domain.ChattingRoom;
-import org.springframework.data.jpa.repository.JpaRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
-public interface ChattingRoomRepository extends JpaRepository<ChattingRoom, Long> {
+import java.util.List;
+
+@Repository
+@RequiredArgsConstructor
+public class ChattingRoomRepository {
+    private final EntityManager em;
+    public
+    List<Object[]> getChattingList(String nickName) {
+        String sql = "SELECT * FROM chatting_room where delivery_man = :nickName or order_man = :nickName";
+        Query query = em.createNativeQuery(sql)
+                .setParameter("nickName", nickName);
+        return query.getResultList();
+    }
+
+    public void save(ChattingRoom chattingRoom) {
+        em.persist(chattingRoom);
+    }
+
 }

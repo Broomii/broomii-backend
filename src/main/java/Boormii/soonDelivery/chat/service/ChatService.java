@@ -3,13 +3,15 @@ package Boormii.soonDelivery.chat.service;
 import Boormii.soonDelivery.chat.domain.ChattingMessage;
 import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.chat.dto.ChatMessageDto;
+import Boormii.soonDelivery.chat.dto.ChattingListDto;
+import Boormii.soonDelivery.chat.dto.ChattingRoomDto;
 import Boormii.soonDelivery.chat.dto.CreateChattingRoomRequestDto;
 import Boormii.soonDelivery.chat.repository.ChattingMessageRepository;
 import Boormii.soonDelivery.chat.repository.ChattingRoomRepository;
-import Boormii.soonDelivery.chat.utils.ChatMessage;
 import Boormii.soonDelivery.chat.utils.ChatRoom;
-//import Boormii.soonDelivery.chat.repository.ChatRoomRepository;
 import Boormii.soonDelivery.global.exception.ApiException;
+import Boormii.soonDelivery.members.domain.Members;
+import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.orders.domain.Orders;
 import Boormii.soonDelivery.orders.repository.OrdersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,21 +30,23 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ChatService {
 
-    private final ChattingRoomRepository chatRoomRepository;
+    private final ChattingRoomRepository chattingRoomRepository;
     private final ChattingMessageRepository chattingMessageRepository;
+    private final MembersRepository membersRepository;
     private final ObjectMapper objectMapper;
     private final OrdersRepository ordersRepository;
     private Map<Long, ChatRoom> chatRooms;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         chatRooms = new LinkedHashMap<>();
     }
 
     public List<ChatRoom> findAllRoom() {
         return new ArrayList<>(chatRooms.values());
     }
-//    public List<ChatRoom> findAllRoom() {
+
+    //    public List<ChatRoom> findAllRoom() {
 //        return chatRoomRepository.findAll();
 //    }
     public ChatRoom findRoomById(Long roomId) {
@@ -57,7 +61,7 @@ public class ChatService {
     public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto) {
         Orders orders = ordersRepository.findById(createChattingRoomRequestDto.getOrderId()).get();
         ChattingRoom chattingRoom = new ChattingRoom(createChattingRoomRequestDto.getTitle(), createChattingRoomRequestDto.getDeliveryMan(), orders);
-        chatRoomRepository.save(chattingRoom);
+        chattingRoomRepository.save(chattingRoom);
 
         ChatRoom chatRoom = ChatRoom.builder()
                 .id(chattingRoom.getId())
@@ -66,17 +70,39 @@ public class ChatService {
         chatRooms.put(chatRoom.getId(), chatRoom);
         return chatRoom;
     }
+
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
         ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto);
         chattingMessageRepository.save(chattingMessage);
     }
+
     public <T> void sendMessage(WebSocketSession session, T message) {
         try {
             session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
         } catch (IOException e) {
             throw new ApiException(HttpStatus.BAD_GATEWAY, "입출력 오류");
-      }
+        }
+    }
+
+    public ChattingListDto getChattingList(String email) {
+        ChattingRoomDto chattingRoomDto;
+        List<ChattingRoomDto> chattingRoomDtoList = new ArrayList<>();
+        ChattingListDto chattingListDto = new ChattingListDto();
+        String nickName = membersRepository.findByEmail(email).get().getNickName();
+        List<Object[]> result = chattingRoomRepository.getChattingList(nickName);
+        for (Object[] row : result ) {
+            chattingRoomDto = new ChattingRoomDto();
+            chattingRoomDto.setChattingRoomId((Long) row[0]);
+            if ( row[1].equals(nickName)) {
+                chattingRoomDto.setReceiver(String.valueOf(row[2]));
+            } else {
+                chattingRoomDto.setReceiver(String.valueOf(row[1]));
+            }
+            chattingRoomDtoList.add(chattingRoomDto);
+        }
+        chattingListDto.setChattingRoomDtoList(chattingRoomDtoList);
+        return chattingListDto;
     }
 
 }
