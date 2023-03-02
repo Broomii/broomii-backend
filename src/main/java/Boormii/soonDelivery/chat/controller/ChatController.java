@@ -25,13 +25,14 @@ public class ChatController {
     public CommonResponse<Object> createChattingRoom(@RequestBody CreateChattingRoomRequestDto createChattingRoomRequestDto) {
          return responseService.getSuccessResponse("채팅방 생성 성공", chatService.createRoom(createChattingRoomRequestDto));
     }
-    @GetMapping
-    public List<ChatRoom> findAllRoom() {
-        return chatService.findAllRoom();
-    }
 
     @GetMapping("/getChattingList")
     public CommonResponse<Object> getChattingList(HttpServletRequest http) {
-        return responseService.getSuccessResponse("성공", chatService.getChattingList(jwtUtils.getEmailFromRequestHeader(http)));
+        return responseService.getSuccessResponse("채팅방 목록 반환 성공", chatService.getChattingList(jwtUtils.getEmailFromRequestHeader(http)));
     }
+
+//    @GetMapping("/getChattings/{id}")
+//    public CommonResponse<Object> getChattings(@RequestParam Long id) {
+//        return responseService.getSuccessResponse("채팅 반환 성공", chatService.getChattings(id));
+//    }
 }

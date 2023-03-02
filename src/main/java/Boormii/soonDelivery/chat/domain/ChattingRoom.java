@@ -26,7 +26,7 @@ public class ChattingRoom {
     @JoinColumn(name ="orders_id")
     private Orders orders;
 
-    @OneToMany
+    @OneToMany(mappedBy = "id")
     private List<ChattingMessage> chattingMessageList;
 
     @Builder
@@ -35,6 +35,10 @@ public class ChattingRoom {
         this.deliveryMan = deliveryMan;
         this.orders = orders;
         this.orderMan = orders.getNickName();
+    }
+
+    public ChattingRoom() {
+
     }
 }
 

@@ -36,4 +36,7 @@ public class ChattingMessage {
 
     }
 
+    public ChattingMessage() {
+
+    }
 }

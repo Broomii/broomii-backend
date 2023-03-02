@@ -67,12 +67,12 @@ public class MembersService {
         }
     }
 
-    public String validateDuplicateNickName(String nickname) {
+    public boolean validateDuplicateNickName(String nickname) {
         Optional<Members> newMember = membersRepository.findByNickName(nickname);
         if (newMember.isPresent()) {
             throw new ApiException(HttpStatus.EXPECTATION_FAILED, "사용중인 닉네임입니다.");
         } else {
-            return nickname;
+            return true;
         }
     }
 
