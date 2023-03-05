@@ -31,8 +31,8 @@ public class ChatController {
         return responseService.getSuccessResponse("채팅방 목록 반환 성공", chatService.getChattingList(jwtUtils.getEmailFromRequestHeader(http)));
     }
 
-//    @GetMapping("/getChattings/{id}")
-//    public CommonResponse<Object> getChattings(@RequestParam Long id) {
-//        return responseService.getSuccessResponse("채팅 반환 성공", chatService.getChattings(id));
-//    }
+    @GetMapping("/getChattings/{id}")
+    public CommonResponse<Object> getChattings(@PathVariable("id") Long id) {
+        return responseService.getSuccessResponse("채팅 반환 성공", chatService.getChattings(id));
+    }
 }

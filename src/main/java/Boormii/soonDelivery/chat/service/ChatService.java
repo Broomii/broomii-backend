@@ -2,10 +2,7 @@ package Boormii.soonDelivery.chat.service;
 
 import Boormii.soonDelivery.chat.domain.ChattingMessage;
 import Boormii.soonDelivery.chat.domain.ChattingRoom;
-import Boormii.soonDelivery.chat.dto.ChatMessageDto;
-import Boormii.soonDelivery.chat.dto.ChattingListDto;
-import Boormii.soonDelivery.chat.dto.ChattingRoomDto;
-import Boormii.soonDelivery.chat.dto.CreateChattingRoomRequestDto;
+import Boormii.soonDelivery.chat.dto.*;
 import Boormii.soonDelivery.chat.repository.ChattingMessageRepository;
 import Boormii.soonDelivery.chat.repository.ChattingRoomRepository;
 import Boormii.soonDelivery.chat.utils.ChatRoom;
@@ -73,7 +70,9 @@ public class ChatService {
 
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
-        ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto);
+        ChattingRoom chattingRoom = chattingRoomRepository.findById(chatMessageDto.getRoomId());
+        ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto, chattingRoom);
+        chattingRoom.addChattingMessage(chattingMessage);
         chattingMessageRepository.save(chattingMessage);
     }
 
@@ -85,6 +84,19 @@ public class ChatService {
         }
     }
 
+    public List<ChattingMessageDto> getChattings(Long roomId) {
+        ChattingRoom chattingRoom = chattingRoomRepository.findById(roomId);
+        chattingRoom.getChattingMessageList();
+
+        List<ChattingMessageDto> chattingMessageDtoList = new ArrayList<>();
+
+        for (ChattingMessage chattingMessage : chattingRoom.getChattingMessageList()) {
+            ChattingMessageDto dto = ChattingMessageDto.createDto(chattingMessage);
+            chattingMessageDtoList.add(dto);
+        }
+        return chattingMessageDtoList;
+    }
+
     public ChattingListDto getChattingList(String email) {
         ChattingRoomDto chattingRoomDto;
         List<ChattingRoomDto> chattingRoomDtoList = new ArrayList<>();
@@ -94,6 +106,8 @@ public class ChatService {
         for (Object[] row : result ) {
             chattingRoomDto = new ChattingRoomDto();
             chattingRoomDto.setChattingRoomId((Long) row[0]);
+            ChattingRoom chattingRoom = chattingRoomRepository.findById((Long) row[0]);
+            System.out.println(chattingRoom.getChattingMessageList().get(0));
             if ( row[1].equals(nickName)) {
                 chattingRoomDto.setReceiver(String.valueOf(row[2]));
             } else {

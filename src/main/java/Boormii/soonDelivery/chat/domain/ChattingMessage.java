@@ -2,40 +2,46 @@ package Boormii.soonDelivery.chat.domain;
 
 import Boormii.soonDelivery.chat.dto.ChatMessageDto;
 import Boormii.soonDelivery.orders.domain.Orders;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
 public class ChattingMessage {
 
     @Id
     @GeneratedValue
     @Column(name = "chatting_message_id")
-    Long id;
+    private Long id;
 
     @NotNull
-    String sender;
+    private String sender;
 
     @NotNull
-    String message;
+    private String message;
 
     @NotNull
-    LocalDateTime createAt;
+    private LocalDateTime createAt;
+
+    @ManyToOne
+    @JoinColumn(name = "chatting_room_id")
+    @JsonIgnore
+    @NotNull
+    private ChattingRoom chattingRoom;
 
     @Builder
-    public ChattingMessage(ChatMessageDto chatMessageDto) {
+    public ChattingMessage(ChatMessageDto chatMessageDto, ChattingRoom chattingRoom) {
         this.sender = chatMessageDto.getSender();
         this.message = chatMessageDto.getMessage();
         this.createAt = LocalDateTime.now();
+        this.chattingRoom = chattingRoom;
 
     }
-
     public ChattingMessage() {
 
     }

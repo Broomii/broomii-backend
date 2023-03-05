@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -26,8 +27,8 @@ public class ChattingRoom {
     @JoinColumn(name ="orders_id")
     private Orders orders;
 
-    @OneToMany(mappedBy = "id")
-    private List<ChattingMessage> chattingMessageList;
+    @OneToMany(mappedBy = "chattingRoom")
+    private List<ChattingMessage> chattingMessageList = new ArrayList<>();
 
     @Builder
     public ChattingRoom(String title, String deliveryMan, Orders orders) {
@@ -39,6 +40,9 @@ public class ChattingRoom {
 
     public ChattingRoom() {
 
+    }
+    public void addChattingMessage(ChattingMessage chattingMessage) {
+        this.chattingMessageList.add(chattingMessage);
     }
 }
 
