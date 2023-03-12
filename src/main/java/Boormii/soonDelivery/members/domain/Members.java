@@ -40,7 +40,7 @@ public class Members {
         members.defaultDeliveryAddress = joinRequestDto.getDefaultDeliveryAddress();
         members.name = joinRequestDto.getName();
         members.nickName = joinRequestDto.getNickName();
-        members.password = joinRequestDto.getPassword();
+        members.password = password;
         members.phoneNumber = joinRequestDto.getPhoneNumber();
         members.department = joinRequestDto.getDepartment();
         members.sex = Sex.valueOf(joinRequestDto.getSex());

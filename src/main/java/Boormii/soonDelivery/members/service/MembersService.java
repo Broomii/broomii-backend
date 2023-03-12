@@ -38,9 +38,11 @@ public class MembersService {
     @Transactional
     public TokenDto join(JoinRequestDto joinRequestDto) {
         validateDuplicateEmail(joinRequestDto.getEmail());
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(joinRequestDto.getEmail(), joinRequestDto.getPassword());
-        Members members = Members.registerMember(joinRequestDto, passwordEncoder.encode(joinRequestDto.getPassword()));
+        String encPassword = passwordEncoder.encode(joinRequestDto.getPassword());
+        Members members = Members.registerMember(joinRequestDto, encPassword);
         membersRepository.save(members);
+        Members member = Members.createMemberByEmailAndPW(joinRequestDto.getEmail(), joinRequestDto.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(member.getEmail(), joinRequestDto.getPassword());
         Authentication authentication = authenticationManageBuilder.getObject().authenticate(authenticationToken);
         TokenDto tokenDto = jwtProvider.generateToken(authentication);
         redisTemplate.opsForValue()
