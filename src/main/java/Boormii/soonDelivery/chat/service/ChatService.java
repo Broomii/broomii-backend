@@ -107,7 +107,6 @@ public class ChatService {
             chattingRoomDto = new ChattingRoomDto();
             chattingRoomDto.setChattingRoomId((Long) row[0]);
             ChattingRoom chattingRoom = chattingRoomRepository.findById((Long) row[0]);
-            System.out.println(chattingRoom.getChattingMessageList().get(0));
             if ( row[1].equals(nickName)) {
                 chattingRoomDto.setReceiver(String.valueOf(row[2]));
             } else {
