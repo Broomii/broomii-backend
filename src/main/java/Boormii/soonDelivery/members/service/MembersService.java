@@ -62,6 +62,12 @@ public class MembersService {
         return tokenDto;
     }
 
+    @Transactional
+    public void delete(String email) {
+        membersRepository.delete(membersRepository.findByEmail(email).get());
+        redisUtil.deleteData(email);
+    }
+
     public void validateDuplicateEmail(String email) {
         Optional<Members> newMember = membersRepository.findByEmail(email);
         if (newMember.isPresent()) {

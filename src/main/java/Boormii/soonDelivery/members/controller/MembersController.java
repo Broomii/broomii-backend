@@ -4,10 +4,7 @@ import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
 import Boormii.soonDelivery.members.domain.Members;
-import Boormii.soonDelivery.members.dto.ConfirmCertificationRequestDto;
-import Boormii.soonDelivery.members.dto.EditPasswordRequestDto;
-import Boormii.soonDelivery.members.dto.JoinRequestDto;
-import Boormii.soonDelivery.members.dto.LoginRequestDto;
+import Boormii.soonDelivery.members.dto.*;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
 import Boormii.soonDelivery.members.service.MembersService;
@@ -31,6 +28,12 @@ public class MembersController {
     public CommonResponse<Object> login(@RequestBody LoginRequestDto loginRequestDto) {
         TokenDto tokenDto = membersService.login(loginRequestDto);
         return responseService.getSuccessResponse("로그인 성공", tokenDto);
+    }
+
+    @DeleteMapping("members/delete/")
+    public CommonResponse<Object> delete(HttpServletRequest http) {
+        membersService.delete(jwtUtils.getEmailFromRequestHeader(http));
+        return responseService.getSuccessResponse("회원 탈퇴 성공" , null);
     }
 
     //    안씀
