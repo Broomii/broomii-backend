@@ -30,7 +30,7 @@ public class MembersController {
         return responseService.getSuccessResponse("로그인 성공", tokenDto);
     }
 
-    @DeleteMapping("members/delete/")
+    @DeleteMapping("members/delete")
     public CommonResponse<Object> delete(HttpServletRequest http) {
         membersService.delete(jwtUtils.getEmailFromRequestHeader(http));
         return responseService.getSuccessResponse("회원 탈퇴 성공" , null);
