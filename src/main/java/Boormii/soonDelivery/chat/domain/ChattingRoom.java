@@ -19,10 +19,7 @@ public class ChattingRoom {
     @Column(name = "chatting_room_id")
     private Long id;
     @NotNull
-    private String deliveryMan;
-
-    @NotNull
-    private String orderMan;
+    private Long deliveryManId;
 
     @ManyToOne
     @JoinColumn(name ="orders_id")
@@ -32,10 +29,9 @@ public class ChattingRoom {
     private List<ChattingMessage> chattingMessageList = new ArrayList<>();
 
     @Builder
-    public ChattingRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, Orders orders) {
-        this.deliveryMan = createChattingRoomRequestDto.getDeliveryMan();
+    public ChattingRoom(Orders orders, Long deliveryManId) {
+        this.deliveryManId = deliveryManId;
         this.orders = orders;
-        this.orderMan = orders.getNickName();
     }
 
     public ChattingRoom() {

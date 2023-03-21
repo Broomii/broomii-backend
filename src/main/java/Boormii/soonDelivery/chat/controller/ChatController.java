@@ -22,8 +22,8 @@ public class ChatController {
     private final JwtUtils jwtUtils;
 
     @PostMapping
-    public CommonResponse<Object> createChattingRoom(@RequestBody CreateChattingRoomRequestDto createChattingRoomRequestDto) {
-         return responseService.getSuccessResponse("채팅방 생성 성공", chatService.createRoom(createChattingRoomRequestDto));
+    public CommonResponse<Object> createChattingRoom(@RequestBody CreateChattingRoomRequestDto createChattingRoomRequestDto, HttpServletRequest http) {
+        return responseService.getSuccessResponse("채팅방 생성 성공", chatService.createRoom(createChattingRoomRequestDto, jwtUtils.getEmailFromRequestHeader(http)));
     }
 
     @GetMapping("/getChattingList")

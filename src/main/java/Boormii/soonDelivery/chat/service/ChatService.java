@@ -55,14 +55,15 @@ public class ChatService {
 //    }
 
     @Transactional
-    public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto) {
+    public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, String email) {
         Orders orders = ordersRepository.findById(createChattingRoomRequestDto.getOrderId()).get();
-        ChattingRoom chattingRoom = new ChattingRoom(createChattingRoomRequestDto, orders);
+        Members deliveryMan = membersRepository.findByEmail(email).get();
+        ChattingRoom chattingRoom = new ChattingRoom(orders, deliveryMan.getId());
         chattingRoomRepository.save(chattingRoom);
 
         ChatRoom chatRoom = ChatRoom.builder()
                 .id(chattingRoom.getId())
-                .name(createChattingRoomRequestDto.getDeliveryMan())
+                .name(deliveryMan.getNickName())
                 .build();
         chatRooms.put(chatRoom.getId(), chatRoom);
         return chatRoom;
