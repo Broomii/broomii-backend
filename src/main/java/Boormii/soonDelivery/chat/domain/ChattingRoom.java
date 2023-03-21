@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.chat.domain;
 
+import Boormii.soonDelivery.chat.dto.CreateChattingRoomRequestDto;
 import Boormii.soonDelivery.orders.domain.Orders;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -31,9 +32,8 @@ public class ChattingRoom {
     private List<ChattingMessage> chattingMessageList = new ArrayList<>();
 
     @Builder
-    public ChattingRoom(String title, String deliveryMan, Orders orders) {
-        this.id = id;
-        this.deliveryMan = deliveryMan;
+    public ChattingRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, Orders orders) {
+        this.deliveryMan = createChattingRoomRequestDto.getDeliveryMan();
         this.orders = orders;
         this.orderMan = orders.getNickName();
     }

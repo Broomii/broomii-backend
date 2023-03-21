@@ -57,7 +57,7 @@ public class ChatService {
     @Transactional
     public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto) {
         Orders orders = ordersRepository.findById(createChattingRoomRequestDto.getOrderId()).get();
-        ChattingRoom chattingRoom = new ChattingRoom(createChattingRoomRequestDto.getTitle(), createChattingRoomRequestDto.getDeliveryMan(), orders);
+        ChattingRoom chattingRoom = new ChattingRoom(createChattingRoomRequestDto, orders);
         chattingRoomRepository.save(chattingRoom);
 
         ChatRoom chatRoom = ChatRoom.builder()
