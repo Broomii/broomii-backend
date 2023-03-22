@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.members.service;
 
+import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.global.exception.ApiException;
 import Boormii.soonDelivery.global.jwt.JwtProvider;
 import Boormii.soonDelivery.members.domain.Members;
@@ -11,6 +12,7 @@ import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
 import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.members.utils.RedisUtil;
+import Boormii.soonDelivery.orders.domain.Orders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -64,7 +66,10 @@ public class MembersService {
 
     @Transactional
     public void delete(String email) {
-        membersRepository.delete(membersRepository.findByEmail(email).get());
+        Members members = membersRepository.findByEmail(email).get();
+        for (Orders orders : members.getOrderList()) orders.disconnectMembers();
+        for (ChattingRoom chattingRoom : members.getChattingRoomList()) chattingRoom.disconnectMembers();
+        membersRepository.delete(members);
         redisUtil.deleteData(email);
     }
 

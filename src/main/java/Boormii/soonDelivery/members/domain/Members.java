@@ -1,11 +1,17 @@
 package Boormii.soonDelivery.members.domain;
 
+import Boormii.soonDelivery.chat.domain.ChattingMessage;
+import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.members.dto.EditPasswordRequestDto;
 import Boormii.soonDelivery.members.dto.EditProfileRequestDto;
 import Boormii.soonDelivery.members.dto.JoinRequestDto;
+import Boormii.soonDelivery.orders.domain.Orders;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -30,6 +36,10 @@ public class Members {
     private Sex sex;
     private String defaultDeliveryAddress;
 
+    @OneToMany(mappedBy = "members")
+    private List<Orders> orderList = new ArrayList<>();
+    @OneToMany(mappedBy = "deliveryMan")
+    private List<ChattingRoom> chattingRoomList = new ArrayList<>();
     @NotNull
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -69,6 +79,12 @@ public class Members {
         this.password = password;
 
         return this.id;
+    }
+    public void addOrders(Orders orders) {
+        this.orderList.add(orders);
+    }
+    public void addChattingRoom(ChattingRoom chattingRoom) {
+        this.chattingRoomList.add(chattingRoom);
     }
 }
 

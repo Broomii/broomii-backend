@@ -1,12 +1,12 @@
 package Boormii.soonDelivery.orders.service;
 
+import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.global.exception.ApiException;
 import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.orders.domain.Orders;
 import Boormii.soonDelivery.orders.dto.*;
 import Boormii.soonDelivery.orders.repository.OrdersRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,14 +26,19 @@ public class OrdersService {
 
     @Transactional
     public Long createOrder(OrdersCreateRequestDto ordersCreateRequestDto, String email) {
-        Orders orders = Orders.createOrder(ordersCreateRequestDto, membersRepository.findByEmail(email).get().getNickName());
+        Members orderMan = membersRepository.findByEmail(email).get();
+        Orders orders = Orders.createOrder(ordersCreateRequestDto, orderMan);
         ordersRepository.save(orders);
+        orderMan.addOrders(orders);
         return orders.getId();
 //      return OrdersResponseDto.registerOrder(orders);
     }
 
     @Transactional
     public void deleteOrder(Long id) {
+        Orders orders = ordersRepository.findById(id).get();
+        for (ChattingRoom chattingRoom : orders.getChattingRoomList()) chattingRoom.disconnectOrders();
+
         ordersRepository.deleteById(id);
     }
 
@@ -42,18 +47,16 @@ public class OrdersService {
         Orders orders = ordersRepository.findById(id).get();
         Members members = membersRepository.findByEmail(email).get();
         int flag = differentUser;
-        if (orders.getNickName().equals(members.getNickName())){
-            flag = sameUser;
-        }
+        if (orders.getMembers().getNickName().equals(members.getNickName())) {flag = sameUser;}
+
         return OrdersResponseDto.registerOrder(orders, flag);
     }
 
     @Transactional
     public List<OrdersListResponseDto> getOrderList() {
         List<OrdersListResponseDto> ordersList = new ArrayList<>();
-        for (Orders orders : ordersRepository.findAll()) {
-            ordersList.add(OrdersListResponseDto.getOrdersList(orders));
-        }
+        for (Orders orders : ordersRepository.findAll()) { ordersList.add(OrdersListResponseDto.getOrdersList(orders)); }
+
         if (ordersList == null) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "글 목록이 존재하지 않습니다.");
         }

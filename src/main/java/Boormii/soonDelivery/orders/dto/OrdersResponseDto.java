@@ -38,7 +38,7 @@ public class OrdersResponseDto {
     public static OrdersResponseDto registerOrder(Orders orders, int flag){
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto();
         ordersResponseDto.title = orders.getTitle();
-        ordersResponseDto.nickName = orders.getNickName();
+        ordersResponseDto.nickName = orders.getMembers().getNickName();
         ordersResponseDto.storeName = orders.getStoreName();
         ordersResponseDto.deliveryAddress = orders.getDeliveryAddress();
         ordersResponseDto.totalPrice = orders.getTotalPrice();

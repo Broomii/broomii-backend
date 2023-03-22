@@ -31,7 +31,11 @@ public class OrdersListResponseDto {
     public static OrdersListResponseDto getOrdersList(Orders orders) {
         OrdersListResponseDto ordersListResponseDto = new OrdersListResponseDto();
         ordersListResponseDto.title = orders.getTitle();
-        ordersListResponseDto.nickName = orders.getNickName();
+        if (orders.getMembers() == null) {
+            ordersListResponseDto.nickName = "알 수 없음";
+        } else {
+            ordersListResponseDto.nickName = orders.getMembers().getNickName();
+        }
         ordersListResponseDto.id = orders.getId();
         ordersListResponseDto.deliveryAddress = orders.getDeliveryAddress();
         ordersListResponseDto.deliveryStatus = orders.getDeliveryStatus();

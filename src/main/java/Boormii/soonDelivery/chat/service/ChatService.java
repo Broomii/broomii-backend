@@ -58,7 +58,10 @@ public class ChatService {
     public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, String email) {
         Orders orders = ordersRepository.findById(createChattingRoomRequestDto.getOrderId()).get();
         Members deliveryMan = membersRepository.findByEmail(email).get();
-        ChattingRoom chattingRoom = new ChattingRoom(orders, deliveryMan.getId());
+        ChattingRoom chattingRoom = new ChattingRoom(orders, deliveryMan);
+
+        deliveryMan.addChattingRoom(chattingRoom);
+        orders.addChattingRoom(chattingRoom);
         chattingRoomRepository.save(chattingRoom);
 
         ChatRoom chatRoom = ChatRoom.builder()
@@ -99,15 +102,16 @@ public class ChatService {
     }
 
     public ChattingListDto getChattingList(String email) {
+
+        // email order.getnickname,
         ChattingRoomDto chattingRoomDto;
         List<ChattingRoomDto> chattingRoomDtoList = new ArrayList<>();
         ChattingListDto chattingListDto = new ChattingListDto();
-        String nickName = membersRepository.findByEmail(email).get().getNickName();
+        // member 내에 있는 order, chattingroomlist 통해서 반환
         List<Object[]> result = chattingRoomRepository.getChattingList(nickName);
         for (Object[] row : result ) {
             chattingRoomDto = new ChattingRoomDto();
             chattingRoomDto.setChattingRoomId((Long) row[0]);
-            ChattingRoom chattingRoom = chattingRoomRepository.findById((Long) row[0]);
             if ( row[1].equals(nickName)) {
                 chattingRoomDto.setReceiver(String.valueOf(row[2]));
             } else {
