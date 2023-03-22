@@ -103,16 +103,30 @@ public class ChatService {
 
     public ChattingListDto getChattingList(String email) {
 
+        Members member = membersRepository.findByEmail(email).get();
+
         // email order.getnickname,
         ChattingRoomDto chattingRoomDto;
         List<ChattingRoomDto> chattingRoomDtoList = new ArrayList<>();
         ChattingListDto chattingListDto = new ChattingListDto();
         // member 내에 있는 order, chattingroomlist 통해서 반환
+
+        // member가 배달자인 order chattingRoomDtoList에 넣기
+        for (ChattingRoom chattingRoom : member.getChattingRoomList()) {
+            chattingRoomDto = new ChattingRoomDto(chattingRoom);
+            chattingRoomDtoList.add(chattingRoomDto);
+        }
+
+        // member가 주문자인 order chattingRoomDtoList에 넣기
+        for (Orders order : member.getOrderList()) {
+
+        }
+
         List<Object[]> result = chattingRoomRepository.getChattingList(nickName);
-        for (Object[] row : result ) {
+        for (Object[] row : result) {
             chattingRoomDto = new ChattingRoomDto();
             chattingRoomDto.setChattingRoomId((Long) row[0]);
-            if ( row[1].equals(nickName)) {
+            if (row[1].equals(nickName)) {
                 chattingRoomDto.setReceiver(String.valueOf(row[2]));
             } else {
                 chattingRoomDto.setReceiver(String.valueOf(row[1]));
