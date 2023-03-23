@@ -40,6 +40,8 @@ public class Members {
     private List<Orders> orderList = new ArrayList<>();
     @OneToMany(mappedBy = "deliveryMan")
     private List<ChattingRoom> chattingRoomList = new ArrayList<>();
+    @OneToMany(mappedBy = "sender")
+    private List<ChattingMessage> chattingMessageList = new ArrayList<>();
     @NotNull
     @Enumerated(EnumType.STRING)
     private Authority authority;
@@ -85,6 +87,9 @@ public class Members {
     }
     public void addChattingRoom(ChattingRoom chattingRoom) {
         this.chattingRoomList.add(chattingRoom);
+    }
+    public void addChattingMessage(ChattingMessage chattingMessage) {
+        this.chattingMessageList.add(chattingMessage);
     }
 }
 

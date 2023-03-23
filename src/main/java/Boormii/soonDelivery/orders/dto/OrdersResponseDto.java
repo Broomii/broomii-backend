@@ -38,7 +38,11 @@ public class OrdersResponseDto {
     public static OrdersResponseDto registerOrder(Orders orders, int flag){
         OrdersResponseDto ordersResponseDto = new OrdersResponseDto();
         ordersResponseDto.title = orders.getTitle();
-        ordersResponseDto.nickName = orders.getMembers().getNickName();
+        if(orders.getMembers() == null) {
+            ordersResponseDto.nickName = "알 수 없음";
+        } else {
+            ordersResponseDto.nickName = orders.getMembers().getNickName();
+        }
         ordersResponseDto.storeName = orders.getStoreName();
         ordersResponseDto.deliveryAddress = orders.getDeliveryAddress();
         ordersResponseDto.totalPrice = orders.getTotalPrice();

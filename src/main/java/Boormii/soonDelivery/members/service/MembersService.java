@@ -1,5 +1,6 @@
 package Boormii.soonDelivery.members.service;
 
+import Boormii.soonDelivery.chat.domain.ChattingMessage;
 import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.global.exception.ApiException;
 import Boormii.soonDelivery.global.jwt.JwtProvider;
@@ -67,8 +68,11 @@ public class MembersService {
     @Transactional
     public void delete(String email) {
         Members members = membersRepository.findByEmail(email).get();
+
         for (Orders orders : members.getOrderList()) orders.disconnectMembers();
         for (ChattingRoom chattingRoom : members.getChattingRoomList()) chattingRoom.disconnectMembers();
+        for (ChattingMessage chattingMessage : members.getChattingMessageList()) chattingMessage.disconnectMembers();
+
         membersRepository.delete(members);
         redisUtil.deleteData(email);
     }

@@ -21,7 +21,7 @@ import java.util.Optional;
 public class OrdersService {
     private final OrdersRepository ordersRepository;
     private final MembersRepository membersRepository;
-    private final int sameUser =  1;
+    private final int sameUser = 1;
     private final int differentUser = 0;
 
     @Transactional
@@ -47,7 +47,9 @@ public class OrdersService {
         Orders orders = ordersRepository.findById(id).get();
         Members members = membersRepository.findByEmail(email).get();
         int flag = differentUser;
-        if (orders.getMembers().getNickName().equals(members.getNickName())) {flag = sameUser;}
+        if (orders.getMembers() != null && orders.getMembers().getNickName().equals(members.getNickName())) {
+                flag = sameUser;
+        }
 
         return OrdersResponseDto.registerOrder(orders, flag);
     }
@@ -55,7 +57,9 @@ public class OrdersService {
     @Transactional
     public List<OrdersListResponseDto> getOrderList() {
         List<OrdersListResponseDto> ordersList = new ArrayList<>();
-        for (Orders orders : ordersRepository.findAll()) { ordersList.add(OrdersListResponseDto.getOrdersList(orders)); }
+        for (Orders orders : ordersRepository.findAll()) {
+            ordersList.add(OrdersListResponseDto.getOrdersList(orders));
+        }
 
         if (ordersList == null) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "글 목록이 존재하지 않습니다.");
