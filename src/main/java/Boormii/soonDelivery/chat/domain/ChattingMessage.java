@@ -1,8 +1,10 @@
 package Boormii.soonDelivery.chat.domain;
 
 import Boormii.soonDelivery.chat.dto.ChatMessageDto;
+import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.orders.domain.Orders;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -19,8 +21,11 @@ public class ChattingMessage {
     @Column(name = "chatting_message_id")
     private Long id;
 
-    @NotNull
-    private String sender;
+    @ManyToOne
+    @JoinColumn(name = "members_id")
+    @JsonIgnore
+    @Nullable
+    private Members sender;
 
     @NotNull
     private String message;
@@ -35,12 +40,15 @@ public class ChattingMessage {
     private ChattingRoom chattingRoom;
 
     @Builder
-    public ChattingMessage(ChatMessageDto chatMessageDto, ChattingRoom chattingRoom) {
-        this.sender = chatMessageDto.getSender();
+    public ChattingMessage(ChatMessageDto chatMessageDto, ChattingRoom chattingRoom, Members members) {
+        this.sender = members;
         this.message = chatMessageDto.getMessage();
         this.createAt = LocalDateTime.now();
         this.chattingRoom = chattingRoom;
 
+    }
+    public void disconnectMembers(){
+        this.sender = null;
     }
     public ChattingMessage() {
 

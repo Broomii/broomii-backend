@@ -35,4 +35,9 @@ public class ChatController {
     public CommonResponse<Object> getChattings(@PathVariable("id") Long id) {
         return responseService.getSuccessResponse("채팅 반환 성공", chatService.getChattings(id));
     }
+
+    @GetMapping("/checkChattingRoom/{id}")
+    public CommonResponse<Object> checkChattingRoom(@PathVariable("id") Long id, HttpServletRequest http) {
+        return responseService.getSuccessResponse("채팅방 여부 반환 성공", chatService.checkChattingRoom(id, jwtUtils.getEmailFromRequestHeader(http)));
+    }
 }

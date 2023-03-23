@@ -7,6 +7,7 @@ import Boormii.soonDelivery.chat.repository.ChattingMessageRepository;
 import Boormii.soonDelivery.chat.repository.ChattingRoomRepository;
 import Boormii.soonDelivery.chat.utils.ChatRoom;
 import Boormii.soonDelivery.global.exception.ApiException;
+import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.repository.MembersRepository;
 import Boormii.soonDelivery.orders.domain.Orders;
@@ -32,6 +33,7 @@ public class ChatService {
     private final MembersRepository membersRepository;
     private final ObjectMapper objectMapper;
     private final OrdersRepository ordersRepository;
+    private final JwtUtils jwtUtils;
     private Map<Long, ChatRoom> chatRooms;
 
     @PostConstruct
@@ -47,6 +49,7 @@ public class ChatService {
 //        return chatRoomRepository.findAll();
 //    }
     public ChatRoom findRoomById(Long roomId) {
+        System.out.println(chatRooms.values());
         return chatRooms.get(roomId);
     }
 
@@ -74,10 +77,14 @@ public class ChatService {
 
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
+        String email = jwtUtils.getEmailFromToken(chatMessageDto.getToken());
         ChattingRoom chattingRoom = chattingRoomRepository.findById(chatMessageDto.getRoomId());
-        ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto, chattingRoom);
-        chattingRoom.addChattingMessage(chattingMessage);
+        Members members = membersRepository.findByEmail(email).get();
+        ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto, chattingRoom, members);
         chattingMessageRepository.save(chattingMessage);
+
+        members.addChattingMessage(chattingMessage);
+        chattingRoom.addChattingMessage(chattingMessage);
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {
@@ -113,28 +120,34 @@ public class ChatService {
 
         // member가 배달자인 order chattingRoomDtoList에 넣기
         for (ChattingRoom chattingRoom : member.getChattingRoomList()) {
-            chattingRoomDto = new ChattingRoomDto(chattingRoom);
+            chattingRoomDto = ChattingRoomDto.createDtoAsDeliveryMan(chattingRoom);
             chattingRoomDtoList.add(chattingRoomDto);
         }
 
         // member가 주문자인 order chattingRoomDtoList에 넣기
         for (Orders order : member.getOrderList()) {
-
-        }
-
-        List<Object[]> result = chattingRoomRepository.getChattingList(nickName);
-        for (Object[] row : result) {
-            chattingRoomDto = new ChattingRoomDto();
-            chattingRoomDto.setChattingRoomId((Long) row[0]);
-            if (row[1].equals(nickName)) {
-                chattingRoomDto.setReceiver(String.valueOf(row[2]));
-            } else {
-                chattingRoomDto.setReceiver(String.valueOf(row[1]));
+            for (ChattingRoom chattingRoom : order.getChattingRoomList()){
+                chattingRoomDto = ChattingRoomDto.createDtoAsOrderMan(chattingRoom);
+                chattingRoomDtoList.add(chattingRoomDto);
             }
-            chattingRoomDtoList.add(chattingRoomDto);
         }
+
         chattingListDto.setChattingRoomDtoList(chattingRoomDtoList);
         return chattingListDto;
     }
 
+    public CheckChattingRoomResponseDto checkChattingRoom(Long orderId, String email){
+        Orders orders = ordersRepository.findById(orderId).get();
+        String checkNickName = membersRepository.findByEmail(email).get().getNickName();
+        CheckChattingRoomResponseDto checkChattingRoomResponseDto = new CheckChattingRoomResponseDto(false);
+
+        // 해당 주문과 연결된 채팅방 조회
+        for(ChattingRoom chattingRoom : orders.getChattingRoomList()){
+           if(chattingRoom.getDeliveryMan() != null && chattingRoom.getDeliveryMan().getNickName().equals(checkNickName)) {
+                checkChattingRoomResponseDto.setIsExistRoom(true);
+                checkChattingRoomResponseDto.setId(chattingRoom.getId());
+            }
+        }
+        return checkChattingRoomResponseDto;
+    }
 }

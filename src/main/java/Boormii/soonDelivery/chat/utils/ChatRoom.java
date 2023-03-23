@@ -26,7 +26,7 @@ public class ChatRoom {
     public void handlerActions(WebSocketSession session, ChatMessageDto chatMessageDto, ChatService chatService) {
         if (chatMessageDto.getType().equals(ChatMessageDto.MessageType.ENTER)) {
             sessions.add(session);
-            chatMessageDto.setMessage(chatMessageDto.getSender() + "님이 입장했습니다.");
+//            chatMessageDto.setMessage(chatMessageDto.getSender() + "님이 입장했습니다.");
         }
 
         chatService.saveMessage(chatMessageDto);

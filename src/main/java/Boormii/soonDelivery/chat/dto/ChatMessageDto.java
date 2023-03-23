@@ -10,6 +10,6 @@ public class ChatMessageDto {
 
     private MessageType type;
     private Long roomId;
-    private String sender;
     private String message;
+    private String token;
 }
