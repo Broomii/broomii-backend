@@ -33,6 +33,12 @@ public class JwtUtils {
         return claims.getSubject();
     }
 
+    public String getEmailFromToken(String token){
+        Claims claims = parseClaims(token);
+        return claims.getSubject();
+    }
+
+
     public Boolean checkJwtWithID(HttpServletRequest request, Long _id){
         Long id = getIdFromRequestHeader(request);
         return id.equals(_id);
