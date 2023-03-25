@@ -1,11 +1,9 @@
 package Boormii.soonDelivery.chat.utils;
 
-import Boormii.soonDelivery.chat.domain.ChattingMessage;
 import Boormii.soonDelivery.chat.dto.ChatMessageDto;
 import Boormii.soonDelivery.chat.service.ChatService;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
@@ -15,7 +13,7 @@ import java.util.Set;
 public class ChatRoom {
     private Long id;
     private String name;
-    private Set<WebSocketSession> sessions = new HashSet<>();
+    private static Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
     public ChatRoom(Long id, String name) {
@@ -28,9 +26,13 @@ public class ChatRoom {
             sessions.add(session);
 //            chatMessageDto.setMessage(chatMessageDto.getSender() + "님이 입장했습니다.");
         }
-
+        System.out.println(sessions.size());
         chatService.saveMessage(chatMessageDto);
         sendMessage(chatMessageDto, chatService);
+    }
+
+    public static void deleteSession(WebSocketSession webSocketSession){
+        sessions.remove(webSocketSession);
     }
     private <T> void sendMessage(T message, ChatService chatService) {
         sessions.parallelStream()

@@ -1,8 +1,6 @@
 package Boormii.soonDelivery.chat.controller;
 
-import Boormii.soonDelivery.chat.domain.ChattingRoom;
 import Boormii.soonDelivery.chat.dto.CreateChattingRoomRequestDto;
-import Boormii.soonDelivery.chat.utils.ChatRoom;
 import Boormii.soonDelivery.chat.service.ChatService;
 import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
@@ -11,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
