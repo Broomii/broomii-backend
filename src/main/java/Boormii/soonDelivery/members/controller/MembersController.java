@@ -3,7 +3,6 @@ package Boormii.soonDelivery.members.controller;
 import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
-import Boormii.soonDelivery.members.domain.Members;
 import Boormii.soonDelivery.members.dto.*;
 import Boormii.soonDelivery.members.dto.token.RefreshRequestDto;
 import Boormii.soonDelivery.members.dto.token.TokenDto;
@@ -34,13 +33,6 @@ public class MembersController {
     public CommonResponse<Object> delete(HttpServletRequest http) {
         membersService.delete(jwtUtils.getEmailFromRequestHeader(http));
         return responseService.getSuccessResponse("회원 탈퇴 성공" , null);
-    }
-
-    //    안씀
-    @GetMapping("members/sendCertification/{email}")
-    public CommonResponse<Object> validateDuplicatedId(@PathVariable("email") String email) {
-        membersService.validateDuplicateEmail(email);
-        return responseService.getSuccessResponse("인증 번호 전송 성공", null);
     }
 
     //    인증번호 확인

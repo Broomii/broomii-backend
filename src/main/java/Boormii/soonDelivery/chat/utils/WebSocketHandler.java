@@ -14,8 +14,9 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @Component
 public class WebSocketHandler extends TextWebSocketHandler {
     private final ObjectMapper objectMapper;
-    private final   ChatService chatService;
+    private final ChatService chatService;
 
+    @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class);
@@ -24,7 +25,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     }
 
     @Override
-        public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus status){
+    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus status){
         ChatRoom.deleteSession(webSocketSession);
     }
 }

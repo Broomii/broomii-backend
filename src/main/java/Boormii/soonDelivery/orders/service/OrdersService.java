@@ -31,7 +31,6 @@ public class OrdersService {
         ordersRepository.save(orders);
         orderMan.addOrders(orders);
         return orders.getId();
-//      return OrdersResponseDto.registerOrder(orders);
     }
 
     @Transactional

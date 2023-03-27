@@ -45,17 +45,10 @@ public class ChatService {
         return new ArrayList<>(chatRooms.values());
     }
 
-    //    public List<ChatRoom> findAllRoom() {
-//        return chatRoomRepository.findAll();
-//    }
     public ChatRoom findRoomById(Long roomId) {
         System.out.println(chatRooms.values());
         return chatRooms.get(roomId);
     }
-
-//    public ChatRoom findRoomById(Long id) {
-//        return chatRoomRepository.findById(id).get();
-//    }
 
     @Transactional
     public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, String email) {
