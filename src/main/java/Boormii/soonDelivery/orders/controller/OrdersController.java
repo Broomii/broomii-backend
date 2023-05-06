@@ -3,7 +3,6 @@ package Boormii.soonDelivery.orders.controller;
 import Boormii.soonDelivery.global.jwt.JwtUtils;
 import Boormii.soonDelivery.global.response.CommonResponse;
 import Boormii.soonDelivery.global.response.ResponseService;
-import Boormii.soonDelivery.orders.domain.Orders;
 import Boormii.soonDelivery.orders.dto.DeliveryStatusEditRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersCreateRequestDto;
 import Boormii.soonDelivery.orders.dto.OrdersEditRequestDto;
