@@ -56,11 +56,11 @@ public class MailService {
         String certificationKey = createKey();
         try {
             MailMessage mailMessage = new MailMessage(javaMailSender);
-            mailMessage.setSubject(reportMailRequestDto.getTitle());
+            mailMessage.setSubject("부르미 신고 메일");
             mailMessage.setFrom(MailService.from_address, "Broomii");
             mailMessage.setTo(from_address);
 
-            String message = "Target: " + reportMailRequestDto.getTarget() + "\n Content: " + reportMailRequestDto.getContent();
+            String message = "Target: " + reportMailRequestDto.getTarget() + "\n OrderId: " + String.valueOf(reportMailRequestDto.getOrderId());
 
             mailMessage.setText(message);
             mailMessage.send();

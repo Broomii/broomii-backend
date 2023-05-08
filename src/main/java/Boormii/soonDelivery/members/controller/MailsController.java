@@ -27,7 +27,7 @@ public class MailsController {
 
     @PostMapping("/sendReportMail")
     public CommonResponse<Object> sendReportMail(@RequestBody ReportMailRequestDto reportMailRequestDto){
-        return responseService.getSuccessResponse("메일 전송 완료", mailService.reportMailSend(reportMailRequestDto));
+        return responseService.getSuccessResponse("신고 완료", mailService.reportMailSend(reportMailRequestDto));
     }
 
 }
