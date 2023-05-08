@@ -35,8 +35,8 @@ public class ChattingRoom {
     @OneToMany(mappedBy = "chattingRoom")
     private List<ChattingMessage> chattingMessageList = new ArrayList<>();
 
-    @Builder
-    public ChattingRoom(Orders orders, Members deliveryMan) {
+
+    public void register(Orders orders, Members deliveryMan) {
         this.deliveryMan = deliveryMan;
         this.orders = orders;
     }

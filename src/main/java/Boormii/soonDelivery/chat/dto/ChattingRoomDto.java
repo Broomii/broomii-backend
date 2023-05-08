@@ -8,6 +8,7 @@ import lombok.Data;
 public class ChattingRoomDto {
     public String receiver;
     public Long chattingRoomId;
+    public Long orderId;
 
     public static ChattingRoomDto createDtoAsDeliveryMan(ChattingRoom chattingRoom) {
         ChattingRoomDto chattingRoomDto = new ChattingRoomDto();
@@ -19,6 +20,9 @@ public class ChattingRoomDto {
             chattingRoomDto.receiver = "알 수 없음";
         }
         chattingRoomDto.chattingRoomId = chattingRoom.getId();
+        if (chattingRoom.getOrders() != null){
+            chattingRoomDto.orderId = chattingRoom.getOrders().getId();
+        }
 
         return chattingRoomDto;
     }
@@ -33,6 +37,9 @@ public class ChattingRoomDto {
             chattingRoomDto.receiver = "알 수 없음";
         }
         chattingRoomDto.chattingRoomId = chattingRoom.getId();
+        if (chattingRoom.getOrders() != null){
+            chattingRoomDto.orderId = chattingRoom.getOrders().getId();
+        }
 
         return chattingRoomDto;
     }

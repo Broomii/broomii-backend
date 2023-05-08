@@ -70,11 +70,8 @@ public class ChatService {
 
     @Transactional
     public void saveMessage(ChatMessageDto chatMessageDto) {
-
-        String email = jwtUtils.getEmailFromToken(chatMessageDto.getToken());
         ChattingRoom chattingRoom = chattingRoomRepository.findById(chatMessageDto.getRoomId());
-        Members members = membersRepository.findByEmail(email).get();
-
+        Members members = membersRepository.findByNickName(chatMessageDto.getSender()).get();
         ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto, chattingRoom, members);
         chattingMessageRepository.save(chattingMessage);
 
@@ -82,16 +79,9 @@ public class ChatService {
         chattingRoom.addChattingMessage(chattingMessage);
     }
 
-    public <T> void sendMessage(WebSocketSession session, ChatMessageDto chatMessageDto) {
-
-        String email = jwtUtils.getEmailFromToken(chatMessageDto.getToken());
-        ChattingRoom chattingRoom = chattingRoomRepository.findById(chatMessageDto.getRoomId());
-        String nickName = membersRepository.findByEmail(email).get().getNickName();
-
-        ChatMessageResponseDto chatMessageResponseDto = new ChatMessageResponseDto(chatMessageDto, nickName);
-
+    public <T> void sendMessage(WebSocketSession session, T message) {
         try {
-            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(chatMessageResponseDto)));
+            session.sendMessage(new TextMessage(objectMapper.writeValueAsString(message)));
         } catch (IOException e) {
             throw new ApiException(HttpStatus.BAD_GATEWAY, "입출력 오류");
         }
