@@ -54,7 +54,15 @@ public class ChatService {
     public ChatRoom createRoom(CreateChattingRoomRequestDto createChattingRoomRequestDto, String email) {
         Orders orders = ordersRepository.findById(createChattingRoomRequestDto.getOrderId()).get();
         Members deliveryMan = membersRepository.findByEmail(email).get();
-        ChattingRoom chattingRoom = new ChattingRoom(orders, deliveryMan);
+
+        Optional<ChattingRoom> checkRoom = chattingRoomRepository.findByMemberIdAndOrderId(deliveryMan.getId(), orders.getId());
+        ChattingRoom chattingRoom = new ChattingRoom();
+
+        if(checkRoom.isPresent()){
+            chattingRoom = checkRoom.get();
+        } else {
+            chattingRoom.register(orders, deliveryMan);
+        }
 
         deliveryMan.addChattingRoom(chattingRoom);
         orders.addChattingRoom(chattingRoom);

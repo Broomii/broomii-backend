@@ -28,7 +28,7 @@ public class ChattingMessageDto {
         dto.id = chattingMessage.getId();
         dto.createAt = chattingMessage.getCreateAt();
         dto.message = chattingMessage.getMessage();
-        dto.sender = chattingMessage.getSender().getName();
+        dto.sender = chattingMessage.getSender().getNickName();
 
         return dto;
     }
