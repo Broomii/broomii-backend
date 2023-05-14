@@ -21,11 +21,16 @@ public class WebSocketHandler extends TextWebSocketHandler {
         String payload = message.getPayload();
         ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class);
         ChatRoom chatRoom = chatService.findRoomById(chatMessageDto.getRoomId());
+
+        if (chatMessageDto.getType().equals("ENTER")) {
+            chatService.addSession(session, chatRoom.getId());
+        }
+
         chatRoom.handlerActions(session, chatMessageDto, chatService);
     }
 
     @Override
-    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus status){
-        ChatRoom.deleteSession(webSocketSession);
+    public void afterConnectionClosed(WebSocketSession webSocketSession, CloseStatus status) {
+        chatService.deleteSession(webSocketSession);
     }
 }

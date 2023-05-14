@@ -36,9 +36,13 @@ public class ChatService {
     private final JwtUtils jwtUtils;
     private Map<Long, ChatRoom> chatRooms;
 
+    private Map<WebSocketSession, Long> sessionMap;
+
+
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
+        sessionMap = new LinkedHashMap<>();
     }
 
     public List<ChatRoom> findAllRoom() {
@@ -46,8 +50,20 @@ public class ChatService {
     }
 
     public ChatRoom findRoomById(Long roomId) {
-        System.out.println(chatRooms.values());
         return chatRooms.get(roomId);
+    }
+
+    public void addSession(WebSocketSession webSocketSession, Long roomId){
+        this.sessionMap.put(webSocketSession, roomId);
+    }
+
+    public void deleteSession(WebSocketSession webSocketSession){
+        Long key = this.sessionMap.get(webSocketSession);
+        ChatRoom chatRoom = this.chatRooms.get(key);
+
+        chatRoom.deleteSession(webSocketSession);
+
+        return;
     }
 
     @Transactional
@@ -81,6 +97,8 @@ public class ChatService {
         ChattingRoom chattingRoom = chattingRoomRepository.findById(chatMessageDto.getRoomId());
         Members members = membersRepository.findByNickName(chatMessageDto.getSender()).get();
         ChattingMessage chattingMessage = new ChattingMessage(chatMessageDto, chattingRoom, members);
+
+
         chattingMessageRepository.save(chattingMessage);
 
         members.addChattingMessage(chattingMessage);

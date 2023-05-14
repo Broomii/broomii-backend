@@ -23,7 +23,7 @@ import java.util.Set;
 public class ChatRoom {
     private Long id;
     private String name;
-    private static Set<WebSocketSession> sessions = new HashSet<>();
+    private Set<WebSocketSession> sessions = new HashSet<>();
 
     @Builder
     public ChatRoom(Long id, String name) {
@@ -40,8 +40,8 @@ public class ChatRoom {
         sendMessage(chatMessageDto, chatService);
     }
 
-    public static void deleteSession(WebSocketSession webSocketSession){
-        sessions.remove(webSocketSession);
+    public void deleteSession(WebSocketSession webSocketSession){
+        this.sessions.remove(webSocketSession);
     }
     private <T> void sendMessage(ChatMessageDto message, ChatService chatService) {
         sessions.parallelStream()
