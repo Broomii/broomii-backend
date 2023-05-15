@@ -22,7 +22,8 @@ public class WebSocketHandler extends TextWebSocketHandler {
         ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class);
         ChatRoom chatRoom = chatService.findRoomById(chatMessageDto.getRoomId());
 
-        if (chatMessageDto.getType().equals("ENTER")) {
+        if (chatMessageDto.getType().toString().equals("ENTER")) {
+            System.out.println("dkfdkqhftndlTRpRNr날막을수가없으셈");
             chatService.addSession(session, chatRoom.getId());
         }
 

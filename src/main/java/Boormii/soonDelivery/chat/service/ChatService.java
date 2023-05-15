@@ -62,6 +62,7 @@ public class ChatService {
         ChatRoom chatRoom = this.chatRooms.get(key);
 
         chatRoom.deleteSession(webSocketSession);
+        this.sessionMap.remove(webSocketSession);
 
         return;
     }
