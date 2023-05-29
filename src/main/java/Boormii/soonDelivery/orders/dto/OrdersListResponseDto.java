@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 @Getter
 @Data
 public class OrdersListResponseDto {
@@ -28,6 +31,9 @@ public class OrdersListResponseDto {
     @NotNull
     private DeliveryStatus deliveryStatus;
 
+    @NotNull
+    private String createTime;
+
     public static OrdersListResponseDto getOrdersList(Orders orders) {
         OrdersListResponseDto ordersListResponseDto = new OrdersListResponseDto();
         ordersListResponseDto.title = orders.getTitle();
@@ -40,6 +46,7 @@ public class OrdersListResponseDto {
         ordersListResponseDto.deliveryAddress = orders.getDeliveryAddress();
         ordersListResponseDto.deliveryStatus = orders.getDeliveryStatus();
         ordersListResponseDto.deliveryPay = orders.getDeliveryPay();
+        ordersListResponseDto.createTime = orders.getCreateTime().format(DateTimeFormatter.ofPattern("yyyy년, MM월, dd일, HH시, mm분"));
 
         return ordersListResponseDto;
     }

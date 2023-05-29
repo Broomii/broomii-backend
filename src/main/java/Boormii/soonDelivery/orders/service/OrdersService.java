@@ -56,7 +56,7 @@ public class OrdersService {
     @Transactional
     public List<OrdersListResponseDto> getOrderList() {
         List<OrdersListResponseDto> ordersList = new ArrayList<>();
-        for (Orders orders : ordersRepository.findAll()) {
+        for (Orders orders : ordersRepository.findAllByOrderByCreateTime()) {
             ordersList.add(OrdersListResponseDto.getOrdersList(orders));
         }
 

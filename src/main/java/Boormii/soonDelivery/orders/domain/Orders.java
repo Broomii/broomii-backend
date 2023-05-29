@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,9 @@ public class Orders {
     @NotNull
     private Integer deliveryPay;
 
+    @NotNull
+    private LocalDateTime createTime;
+
     private DeliveryStatus deliveryStatus;
 
     private String requirement;
@@ -67,6 +71,7 @@ public class Orders {
         orders.requirement = ordersCreateRequestDto.getRequirement();
         orders.deliveryStatus = DeliveryStatus.deliverable;
         orders.members = orderMan;
+        orders.createTime = LocalDateTime.now();
 
         return orders;
     }
