@@ -8,10 +8,15 @@
 - **실시간 채팅**을 통해 배달 세부 사항 협의 가능
 
 ## 🛠️기술 스택
-- Java, Spring, Spring boot, JPA
+- Java, Spring, Gradle, Spring boot, JPA
 - MySQL, Redis
 - WebSocket
 - IntelliJ, Git
+- AWS EC2, RDS
 # 📱구현 화면
 
 <img src="https://user-images.githubusercontent.com/60387887/230245177-a3b3003c-a61c-44b2-9e9e-bc96a85e3280.png">
+
+# 데이터베이스 구조
+
+![%EC%8A%A4%ED%81%AC%EB%A6%B0%EC%83%B7%202023-02-08%20%EC%98%A4%EC%A0%84%2012 20 01](https://github.com/Broomii/broomii-backend/assets/77485914/5c0964f0-f922-4421-81cb-25daf6efc96e)
